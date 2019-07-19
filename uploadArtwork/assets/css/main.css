@@ -1,0 +1,50 @@
+/*
+CSS selectors: https://www.w3schools.com/cssref/css_selectors.asp
+*/
+
+body {
+    color: navajowhite;
+    background: navajowhite;
+}
+
+/* Refers to the tag that has the attribute 'id="wrapper"' */
+#wrapper {
+    width: 700px;
+    margin: 0 auto;
+    border: 1px solid #666;
+    background: #5d6263;
+}
+
+/* The sign > refers to the first level of childrens that are div's, inside #wrapper '*/
+#wrapper > div {
+    padding: 25px;
+}
+.h1 {
+    color: cadetblue;
+    text-decoration-style: double;
+}
+
+.container {
+    background: whitesmoke;
+}
+
+.content {
+    width: 500px;
+    float: left;
+}
+
+.big-text {
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.left-label {
+    display: inline-block;
+    width: 150px;
+}
+
+.right-label {
+    display: inline-block;
+    width: 250px;
+}
+
