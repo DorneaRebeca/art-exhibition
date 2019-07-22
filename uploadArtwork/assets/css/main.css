@@ -23,6 +23,9 @@ body {
     color: cadetblue;
     text-decoration-style: double;
 }
+.h3 {
+    color: brown;
+}
 
 .container {
     background: whitesmoke;
@@ -31,6 +34,7 @@ body {
 .content {
     width: 500px;
     float: left;
+    color: hotpink;
 }
 
 .big-text {
@@ -47,4 +51,5 @@ body {
     display: inline-block;
     width: 250px;
 }
+
 

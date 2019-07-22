@@ -4,21 +4,30 @@
     include "validations/inputValidations.php";
 
 
-
+    session_start();
     ini_set('display_errors', 'ON');
+    $errors =[];
 
     if($_POST && count($_FILES)){
         var_dump($_POST);
+        var_dump($_FILES);
 
-        $errors = validateAll($_POST, $_FILES);
+        $errors = validateAll($_POST, $_FILES[IMG_SOURCE]);
 
         if(count($errors) == 0)
         {
             saveInputInformation($_POST, $_FILES[IMG_SOURCE]);
+            $_SESSION[ARTIST_NAME] = $_POST[ARTIST_NAME];
+            $_SESSION[FILE_NAME] = $_FILES[IMG_SOURCE][FILE_NAME];
+            header('Location: successPage.php');
+            exit;
         }
+
+
 
         //TODO - add slashes for all strings
         //TODO - validate extensions
+        //TODO - correct the multiple select - it doesn't work :)
 
     }
 ?>

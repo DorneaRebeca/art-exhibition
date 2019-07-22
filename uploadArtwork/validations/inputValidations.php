@@ -1,5 +1,6 @@
 <?php
 
+const EXTENSION_PATTERN = '/\w+\.[jpeg|jpg|png]+$/';
 
 /**
  * @param $postData array containing all information existent after upload command
@@ -10,7 +11,7 @@
         $errorList = [];
         if( empty($postData[IMG_NAME]) )
         {
-            $errorList[] = 'Please introduce a name for the image';
+            $errorList[] = 'Please introduce a title for the image';
         }
 
         if( empty($postData[ARTIST_NAME]) )
@@ -43,9 +44,9 @@
             $errorList[] = 'Please write an image description';
         }
 
-        if(count($imageData) != 1)
+        if( empty($imageData) )
         {
-            $errorList[] = 'You must introduce one and only one image';
+            $errorList[] = 'You must introduce an image';
         }
 
         return $errorList;
@@ -79,14 +80,26 @@
         return $error;
     }
 
+    function validateImageExtension($imageName)  :array
+    {
+        $errorList = [];
+        if(!preg_match(EXTENSION_PATTERN, $imageName))
+        {
+            $errorList[] = 'This extension is not supported by our application. Change it!';
+        }
+        return $errorList;
+
+    }
+
 
 
 
     function validateAll($postData, $fileData) : array
     {
-        $errorList = validateMandatoryFields($postData, $fileData);
+        $errorList = validateMandatoryFields($postData, $fileData[FILE_MIME_TYPE]);
         array_merge($errorList, validateEmailAdress($postData[EMAIL]));
         array_merge($errorList, validatePrice($postData[IMG_PRICE]));
+        array_merge($errorList, validateImageExtension($fileData[FILE_MIME_TYPE]));
         return $errorList;
     }
 

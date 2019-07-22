@@ -11,3 +11,5 @@ const PHOTOGRAPHY_TYPE = 'photographyType';
 const IMG_SOURCE = 'imageSource';
 const FLOAT_PATTERN = '/([0-9]*[.])?[0-9]+[$|\s]/';
 const DEFAULT_PATH = '/var/www/my-application/uploads';
+const FILE_MIME_TYPE = 'tmp_name';
+const FILE_NAME = 'name';

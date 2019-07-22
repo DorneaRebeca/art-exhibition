@@ -22,6 +22,6 @@
             mkdir($path, 0777);
         }
 
-        move_uploaded_file($imageImported['tmp_name'], $path.'/'.$imageImported['name']);
-        createJSONFormat($inputInformation, $path, $imageImported['name']);
+        move_uploaded_file($imageImported[FILE_MIME_TYPE], $path.'/'.$imageImported[FILE_NAME]);
+        createJSONFormat($inputInformation, $path, $imageImported[FILE_NAME]);
     }
