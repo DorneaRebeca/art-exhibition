@@ -2,33 +2,25 @@
     include "constants.php";
     include "saveInformation/saveImageAndInfos.php";
     include "validations/inputValidations.php";
-
+    include "validations/addSlashes.php";
 
     session_start();
     ini_set('display_errors', 'ON');
     $errors =[];
 
     if($_POST && count($_FILES)){
-        var_dump($_POST);
-        var_dump($_FILES);
 
         $errors = validateAll($_POST, $_FILES[IMG_SOURCE]);
+        $slashedPostData = addSlashesToInput($_POST);
 
         if(count($errors) == 0)
         {
-            saveInputInformation($_POST, $_FILES[IMG_SOURCE]);
-            $_SESSION[ARTIST_NAME] = $_POST[ARTIST_NAME];
+            saveInputInformation($slashedPostData, $_FILES[IMG_SOURCE]);
+            $_SESSION[ARTIST_NAME] = $slashedPostData[ARTIST_NAME];
             $_SESSION[FILE_NAME] = $_FILES[IMG_SOURCE][FILE_NAME];
             header('Location: successPage.php');
             exit;
         }
-
-
-
-        //TODO - add slashes for all strings
-        //TODO - validate extensions
-        //TODO - correct the multiple select - it doesn't work :)
-
     }
 ?>
 <!DOCTYPE html>
@@ -49,7 +41,7 @@
 <body>
 <div id="wrapper">
 
-        <div class="content">
+        <div id="content">
             <h1>Add Image</h1>
             <!-- NOTE the enctype="multipart/form-data". That attribute allows the file upload. -->
 
@@ -90,8 +82,8 @@
                     <input name="captureDate" type="date" class="form-control" id="captureDate" placeholder="yyyy-mm-dd">
                 </div>
                 <div class="form-group">
-                    <label for="photographyType">Photography Type</label>
-                    <select class="form-control form-control-lg" name="photographyType" id="photographyType" multiple>
+                    <label for="photographyType[]">Photography Type</label>
+                    <select multiple class="form-control form-control-lg" name="photographyType[]" id="photographyType[]" >
                         <option>Drone Photography</option>
                         <option>Editorial Photography</option>
                         <option>Family Photography</option>
@@ -127,11 +119,6 @@
 
 
         </div>
-
-
-
-
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

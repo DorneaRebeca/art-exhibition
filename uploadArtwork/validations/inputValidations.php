@@ -44,6 +44,11 @@ const EXTENSION_PATTERN = '/\w+\.[jpeg|jpg|png]+$/';
             $errorList[] = 'Please write an image description';
         }
 
+        if(count($postData[PHOTOGRAPHY_TYPE]) == 0)
+        {
+            $errorList[] = 'Please choose at least one photography type';
+        }
+
         if( empty($imageData) )
         {
             $errorList[] = 'You must introduce an image';
@@ -70,7 +75,7 @@ const EXTENSION_PATTERN = '/\w+\.[jpeg|jpg|png]+$/';
     }
 
 
-    function validateEmailAdress($email)
+    function validateEmailAddress($email)
     {
         $error = [];
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -97,9 +102,8 @@ const EXTENSION_PATTERN = '/\w+\.[jpeg|jpg|png]+$/';
     function validateAll($postData, $fileData) : array
     {
         $errorList = validateMandatoryFields($postData, $fileData[FILE_MIME_TYPE]);
-        array_merge($errorList, validateEmailAdress($postData[EMAIL]));
+        array_merge($errorList, validateEmailAddress($postData[EMAIL]));
         array_merge($errorList, validatePrice($postData[IMG_PRICE]));
         array_merge($errorList, validateImageExtension($fileData[FILE_MIME_TYPE]));
         return $errorList;
     }
-

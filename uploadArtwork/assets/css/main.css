@@ -3,38 +3,30 @@ CSS selectors: https://www.w3schools.com/cssref/css_selectors.asp
 */
 
 body {
-    color: navajowhite;
-    background: navajowhite;
+    background: url('http://blog.hostbaby.com/wp-content/uploads/2013/07/scuffedstatic_dark_1920x1234.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    color: oldlace;
+
 }
 
 /* Refers to the tag that has the attribute 'id="wrapper"' */
 #wrapper {
     width: 700px;
     margin: 0 auto;
-    border: 1px solid #666;
-    background: #5d6263;
+    border: 3px solid #666;
+
 }
 
 /* The sign > refers to the first level of childrens that are div's, inside #wrapper '*/
 #wrapper > div {
-    padding: 25px;
+    padding: 40px;
 }
-.h1 {
-    color: cadetblue;
-    text-decoration-style: double;
-}
-.h3 {
-    color: brown;
-}
-
-.container {
-    background: whitesmoke;
-}
-
-.content {
-    width: 500px;
+#content {
+    width: auto;
     float: left;
-    color: hotpink;
 }
 
 .big-text {
@@ -45,6 +37,7 @@ body {
 .left-label {
     display: inline-block;
     width: 150px;
+    color: cadetblue;
 }
 
 .right-label {

@@ -6,14 +6,12 @@
     session_start();
     ini_set('display_errors', 'ON');
 
-
     $jsonData = retrieveJsonData($_SESSION);
 
-   //TODO - see why the image doesn't appear in browser
-
-
-
-
+    /**
+     * Used to display image on browser
+     */
+    $imagePath = createImagePath($_SESSION[FILE_NAME], $_SESSION[ARTIST_NAME]);
 
 ?>
 
@@ -35,12 +33,13 @@
 </head>
 <body>
 
+<div id="wrapper">
 
-        <h2>The image has been saved with success :)</h2>
+        <h2>Your image has been successfully updated :)</h2>
         <dl class="row">
             <?php
                 if($jsonData){?>
-            <dt class="col-sm-3 text-truncate"> <?php echo 'Image title : ' ?> </dt>
+            <dt id="left-label" class="col-sm-3 text-truncate"> <?php echo 'Image title : ' ?> </dt>
             <dd class="col-sm-9"><?php echo $jsonData[IMG_NAME].PHP_EOL ?></dd>
             <?php }?>
 
@@ -58,7 +57,7 @@
 
             <?php
             if($jsonData){?>
-                <dt class="col-sm-3 text-truncate"> <?php echo 'Camera specifications : ' ?> </dt>
+                <dt class="col-sm-3 text-truncate"> <?php echo 'Camera specs : ' ?> </dt>
                 <dd class="col-sm-9"><?php echo $jsonData[CAMERA_SPECS].PHP_EOL ?></dd>
             <?php }?>
 
@@ -66,12 +65,6 @@
             if($jsonData){?>
                 <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
                 <dd class="col-sm-9"><?php echo $jsonData[CAPTURE_DATE].PHP_EOL ?></dd>
-            <?php }?>
-
-            <?php
-            if($jsonData){?>
-                <dt class="col-sm-3 text-truncate"> <?php echo 'Photography type : ' ?> </dt>
-                <dd class="col-sm-9"><?php echo $jsonData[PHOTOGRAPHY_TYPE].PHP_EOL ?></dd>
             <?php }?>
 
             <?php
@@ -85,8 +78,20 @@
             <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
             <dd class="col-sm-9"><?php echo $jsonData[CAPTURE_DATE].PHP_EOL ?></dd>
             <?php }?>
+
+            <dt class="col-sm-3 text-truncate"> <?php echo 'Photography Type : ' ?> </dt>
+            <dd class="col-sm-9">
+            <?php
+                foreach ($jsonData[PHOTOGRAPHY_TYPE] as $tag){?>
+                <span class="badge badge-primary"><?php echo $tag ?></span>
+                <?php } ?>
+            </dd>
         </dl>
-        <img src = "<?php createImagePath($_SESSION[FILE_NAME], $_SESSION[ARTIST_NAME]) ?>"  class="img-thumbnail" >
+
+
+        <img src = "<?php echo $imagePath ?>" class="img-thumbnail" >
+
+</div>
 
 </body>
 
