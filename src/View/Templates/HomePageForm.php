@@ -14,7 +14,83 @@
 
 </head>
 <body>
-    Welcome to Home Page!!!!
+<a href="/user/register"> Sign up </a>
+<a href="/user/login"> Sign in </a>
+<a href="/product/uploadProduct"> Upload Artwork </a>
+<a href="/user/showProfile"> My Account </a>
+<a href="/product/showProduct"> See Product </a>
+
+<div class="wrapper">
+
+    <?php var_dump($displayData);?>
+    <?php foreach ($displayData as $product):?>
+
+        <div class="card" style="width: 40rem;">
+            <img class="card-img-top" src = "<?php echo $product[IMG_SOURCE] ?>" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"> <?php
+                    if($product){?>
+                        <dt id="left-label" class="col-sm-3 text-truncate"> <?php echo 'Image title : ' ?> </dt>
+                        <dd class="col-sm-9"><?php echo $product[IMG_NAME].PHP_EOL ?></dd>
+                    <?php }?>
+                </h5>
+
+                <dl class="row">
+                    <?php
+                    if($product){?>
+                        <dt class="col-sm-3 text-truncate"> <?php echo 'Image Description : ' ?> </dt>
+                        <dd class="col-sm-9"><?php echo $product[IMG_DESCRIPTION].PHP_EOL ?></dd>
+                    <?php }?>
+    <!---->
+    <!--                --><?php
+    //                if($product){?>
+    <!--                    <dt class="col-sm-3 text-truncate"> --><?php //echo 'Image price : ' ?><!-- </dt>-->
+    <!--                    <dd class="col-sm-9">--><?php //echo $product[IMG_PRICE].PHP_EOL ?><!--</dd>-->
+    <!--                --><?php //}?>
+
+                    <?php
+                    if($product){?>
+                        <dt class="col-sm-3 text-truncate"> <?php echo 'Camera specs : ' ?> </dt>
+                        <dd class="col-sm-9"><?php echo $product[CAMERA_SPECS].PHP_EOL ?></dd>
+                    <?php }?>
+
+                    <?php
+                    if($product){?>
+                        <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
+                        <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE].PHP_EOL ?></dd>
+                    <?php }?>
+
+                    <?php
+    //                if($product){
+
+                    //}?>
+    <!--                    <dt class="col-sm-3 text-truncate"> --><?php //echo 'Created by : ' ?><!-- </dt>-->
+    <!--                    <dd class="col-sm-9">--><?php //echo $product[ARTIST_NAME].PHP_EOL ?><!--</dd>-->
+    <!--                --><?php //} ?>
+
+                    <?php
+                    if($product){?>
+                        <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
+                        <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE].PHP_EOL ?></dd>
+                    <?php }?>
+
+                    <dt class="col-sm-3 text-truncate"> <?php echo 'Photography Type : ' ?> </dt>
+                    <dd class="col-sm-9">
+                        <?php
+                        foreach ($product[PHOTOGRAPHY_TYPE] as $tag){?>
+                            <span class="badge badge-primary"><?php echo $tag ?></span>
+                        <?php } ?>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+</div>
+
+
+
+
 </body>
 
 

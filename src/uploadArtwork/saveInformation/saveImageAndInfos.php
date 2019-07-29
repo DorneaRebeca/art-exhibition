@@ -1,6 +1,5 @@
 <?php
 
-    const IMAGE_NAME_PATTERN = '/(\w+)\.[jpeg|jpg|png]+$/';
     function createJSONFormat($postInformation, $path, $name)
     {
         $json_data = json_encode($postInformation);
