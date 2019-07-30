@@ -14,13 +14,6 @@ class RegisterPageRenderer
         $this->request = new Request();
     }
 
-    public function takeInputs()
-    {
-        $userEmail = $this->request->getPostSpecific(USER_EMAIL);
-        $userPassword = $this->request->getPostSpecific(USER_PASSWORD);
-
-    }
-
     public function displayPage()
     {
         require 'src/View/Templates/registerForm.php';

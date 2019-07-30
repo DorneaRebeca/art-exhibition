@@ -3,7 +3,8 @@
 
 namespace Art\View\Renderers;
 
-use Art\View\Request;
+
+use Art\Model\Http\Request;
 
 class ProfilePageRenderer
 {
@@ -14,11 +15,6 @@ class ProfilePageRenderer
         $this->request = new Request();
     }
 
-    public function takeInputs()
-    {
-        $userEmail = $this->request->getPostSpecific(USER_EMAIL);
-        $userPassword = $this->request->getPostSpecific(USER_PASSWORD);
-    }
 
     public function displayPage()
     {

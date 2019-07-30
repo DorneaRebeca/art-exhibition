@@ -1,10 +1,13 @@
 <?php
 
-namespace Art\View;
+namespace Art\Model\Http;
 
 class Request
 {
-
+    public static function createRequest()
+    {
+        return new Request();
+    }
 
 
     public function getPostVariable()

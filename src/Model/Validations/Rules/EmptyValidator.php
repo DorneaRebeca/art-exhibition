@@ -2,6 +2,8 @@
 
 namespace Model\Validations\Rules;
 
+use Art\Model\Validations\Rules\ValidatorFactory;
+
 class EmptyValidator implements ValidatorFactory
 {
 

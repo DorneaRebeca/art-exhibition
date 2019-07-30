@@ -32,9 +32,22 @@ class UserFinder extends AbstractFinder
         return $users;
     }
 
+    public function findByEmail($email)
+    {
+        $sql = "select * from user where email = ?";
+        $statement = $this->getPdo()->prepare($sql);
+        $statement->bindParam(1, $email);
+        $statement->execute();
+
+        $user = $this->mapToDomainObject( $statement->fetch(PDO::FETCH_ASSOC));
+
+        return $user;
+
+    }
+
     public function mapToDomainObject($row)
     {
-        return new User($row['iduser'], $row['name'], $row['email'], $row['password']);
+        return new User($row['email'], $row['password'], $row['iduser'], $row['name']);
 
     }
 

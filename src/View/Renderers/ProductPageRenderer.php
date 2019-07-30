@@ -15,11 +15,6 @@ class ProductPageRenderer
         $this->request = new Request();
     }
 
-    public function takeInputs()
-    {
-        $this->request->getPostSpecific();
-    }
-
     public function displayPage($displayProduct)
     {
         $product = $this->createProductData($displayProduct);
