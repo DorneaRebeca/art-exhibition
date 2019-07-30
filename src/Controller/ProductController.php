@@ -34,6 +34,7 @@ class ProductController
     public  function uploadProduct()
     {
         require 'src/uploadArtwork/index.php';
+
     }
 
 

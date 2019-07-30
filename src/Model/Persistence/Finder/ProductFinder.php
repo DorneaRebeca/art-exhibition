@@ -43,7 +43,7 @@ class ProductFinder extends AbstractFinder
         return $resultProducts;
 
     }
-    
+
     public function findByThumbnailPath($thumbnailPath)
     {
         $sql = "select idproduct from product where thumbnailPath=?";
