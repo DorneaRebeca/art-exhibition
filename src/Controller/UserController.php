@@ -2,9 +2,12 @@
 
 namespace Art\Controller;
 
+use Art\Model\Persistence\PersistenceFactory;
 use Art\View\Renderers\LoginPageRenderer;
 use Art\View\Renderers\ProfilePageRenderer;
 use Art\View\Renderers\RegisterPageRenderer;
+use Art\Model\DomainObject\User;
+
 
 class UserController
 {
@@ -22,6 +25,11 @@ class UserController
      */
     private $profileForm;
 
+    /**
+     * @var PersistenceFactory;
+     */
+    private $persistancefactory;
+
 
     public function __construct()
     {
@@ -37,6 +45,9 @@ class UserController
     public function register()
     {
         $this->registerForm= new RegisterPageRenderer();
+
+
+
         $this->registerForm->displayPage();
     }
 
@@ -59,7 +70,8 @@ class UserController
 
     public function registerPost()
     {
-
+        PersistenceFactory::getMapperInstance('user')->insert(new User(null, 'victoria', 'vic@yahoo.com', 'pass'));
+        var_dump(PersistenceFactory::getFinderInstance('user')->findAll());
     }
 
     public function showOrders()

@@ -22,15 +22,6 @@ abstract class Router
 
 
     /**
-     * Creates properties in specific callable function ClassName::method
-     * @return string
-     */
-    public function getControllerRoute()
-    {
-        return $this->controllerClass."::".$this->controllerMethod;
-    }
-
-    /**
      * @return mixed
      */
     public function getPath()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\DomainObject;
+namespace Art\Model\DomainObject;
 
 class User
 {

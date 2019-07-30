@@ -16,7 +16,6 @@ class HomePageRenderer
 
     public function displayPage(array $displayProducts)
     {
-        var_dump($displayProducts);
         $displayData = $this->createDisplayData($displayProducts);
         require 'src/View/Templates/HomePageForm.php';
 

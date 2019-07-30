@@ -1,11 +1,12 @@
 <?php
 
+use Art\Controller\UserController;
 use Art\RouterObject\ConcreteRouter;
 use Art\RouterObject\NullURLRouter;
 
 require 'vendor/autoload.php';
 ini_set('display_errors', 'ON');
-
+$config = include 'src/config.php';
 
     if( strlen($_SERVER['REQUEST_URI']) <= 1)
     {
@@ -22,6 +23,10 @@ ini_set('display_errors', 'ON');
     $controller = new $controllerClass;
 
     $controller->{$router->getControllerMethod()}();
+
+
+
+
 
 
 

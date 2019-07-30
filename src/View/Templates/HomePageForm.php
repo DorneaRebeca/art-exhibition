@@ -22,7 +22,6 @@
 
 <div class="wrapper">
 
-    <?php var_dump($displayData);?>
     <?php foreach ($displayData as $product):?>
 
         <div class="card" style="width: 40rem;">
@@ -57,7 +56,7 @@
                     <?php
                     if($product){?>
                         <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
-                        <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE].PHP_EOL ?></dd>
+                        <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE]->format('Y-m-d').PHP_EOL ?></dd>
                     <?php }?>
 
                     <?php
@@ -68,11 +67,6 @@
     <!--                    <dd class="col-sm-9">--><?php //echo $product[ARTIST_NAME].PHP_EOL ?><!--</dd>-->
     <!--                --><?php //} ?>
 
-                    <?php
-                    if($product){?>
-                        <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
-                        <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE].PHP_EOL ?></dd>
-                    <?php }?>
 
                     <dt class="col-sm-3 text-truncate"> <?php echo 'Photography Type : ' ?> </dt>
                     <dd class="col-sm-9">
