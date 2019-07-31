@@ -35,7 +35,7 @@ class RegisterFormMapper
 
         $encrypted = password_hash($password, PASSWORD_BCRYPT);
 
-        return new User($name, $email, $password);
+        return new User( $email, $password, $name);
     }
 
 }

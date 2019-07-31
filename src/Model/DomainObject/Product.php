@@ -24,7 +24,7 @@ class Product
      * @param $captureDate
      * @param $thumbnailPath
      */
-    public function __construct( $id = null, $userID, $title, $description, $tags, $cameraSpecs, $captureDate, $thumbnailPath)
+    public function __construct( $title, $description, $tags, $cameraSpecs, $captureDate, $thumbnailPath, $userID, $id = null)
     {
         $this->id = $id;
         $this->userID = $userID;

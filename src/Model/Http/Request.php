@@ -30,5 +30,10 @@ class Request
         return $_GET[$getParameter];
     }
 
+    public function getFileSpecific($fileParameter)
+    {
+        return $_FILES[$fileParameter];
+    }
+
 
 }

@@ -32,17 +32,6 @@
             </div>
 
             <div class="form-group">
-                <label for="artistEmail">Email address</label>
-                <input type="email" name="artistEmail" class="form-control" id="artistEmail" aria-describedby="email" placeholder="Enter email">
-                <small id="artistEmail"  class="form-text text-muted">We'll never share your email with anyone else :D.</small>
-            </div>
-
-            <div class="form-group">
-                <label for="artistName">Artist Name</label>
-                <input name="artistName" type="text" class="form-control" id="artistName" placeholder="Name">
-            </div>
-
-            <div class="form-group">
                 <label for="cameraSpecs">Camera Specifications </label>
                 <textarea class="form-control" rows="5" id="cameraSpecs" name="cameraSpecs"></textarea>
             </div>
@@ -84,9 +73,9 @@
                 <input type="file" class="form-control-file" id="chooseImg" name="imageSource">
             </div>
 
-            <?php if (isset($_POST) && $errors) {?>
-                <div style="color: red"><?php echo '*'.implode('<br>*', $errors) ?></div>
-            <?php } ?>
+<!--            --><?php //if (isset($_POST) && $errors) {?>
+<!--                <div style="color: red">--><?php //echo '*'.implode('<br>*', $errors) ?><!--</div>-->
+<!--            --><?php //} ?>
 
             <button type="submit" class="btn btn-success">Upload image</button>
 

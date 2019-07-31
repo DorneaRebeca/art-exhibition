@@ -4,10 +4,16 @@
 namespace Art\Controller;
 
 
+use Art\Controller\Model\FormMapper\UploadImageFormMapper;
 use Art\Model\DomainObject\Product;
+use Art\Model\Http\Request;
+use Art\Model\Http\Session;
 use Art\Model\Persistence\PersistenceFactory;
+use Art\Model\TierProcessor\OriginalTierSaver;
 use Art\View\Renderers\ProductPageRenderer;
 use Art\View\Renderers\HomePageRenderer;
+
+require 'src/constants.php';
 
 class ProductController
 {
@@ -21,20 +27,24 @@ class ProductController
      */
     private $buyProductForm;
 
+    /**
+     * @var Session
+     */
+    private $session;
+
 
     public function showProducts()
     {
         $this->homePageForm = new HomePageRenderer();
 
-        $products = PersistenceFactory::getFinderInstance('product')->findALl();
+        $products = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findALl();
 
         $this->homePageForm->displayPage($products);
     }
 
     public  function uploadProduct()
     {
-        require 'src/uploadArtwork/index.php';
-        //TODO : in lco de SuccessPage sa ma trimita la flow-ul aplicatiei si sa salvez datele in db;
+        require 'src/View/Templates/uploadProductForm.php';
 
     }
 
@@ -49,22 +59,26 @@ class ProductController
 
     public function buyProduct()
     {
-        $products = [];
-        $products [] = new Product(null,1,'Ho-ho-ho1', 'asdf', ['ptoj','dgfhf','dds'],'camera specs',new \DateTime('2019-04-06'),'https://source.unsplash.com/pWkk7iiCoDM/400x300');
-        $products [] = new Product(null,2,'Ho-ho-ho2', 'asdf', ['ptoj','dgfhf','dds'],'camera specs',new \DateTime('2018-06-12'),'https://source.unsplash.com/aob0ukAYfuI/400x300');
-        $products [] = new Product(null,3,'Ho-ho-ho3', 'asdf', ['ptoj','dgfhf','dds'],'camera specs',new \DateTime('2019-04-05'),'https://source.unsplash.com/EUfxH-pze7s/400x300');
-        $products [] = new Product(null,4,'Ho-ho-ho4', 'asdf', ['ptoj','dgfhf','dds'],'camera specs',new \DateTime('2018-07-07'),'https://source.unsplash.com/M185_qYH8vg/400x300');
-
-        foreach ($products as $product)
-        {
-            PersistenceFactory::getMapperInstance('product')->insert($product);
-        }
-        PersistenceFactory::getFinderInstance('product')->findALl();
 
     }
 
-    public  function uploadProductPost()
+    public function uploadProductPost()
     {
+        $uploadRequest = Request::createRequest();
+        $this->session = Session::createSession();
+
+        if( $this->session->getSpecificSession(LOGGED_USER))
+        {
+            $userID = $this->session->getSpecificSession(LOGGED_USER);
+
+            $uploadMapper = new  UploadImageFormMapper($uploadRequest);
+            $uploadProduct = $uploadMapper->getProductFromUploadForm($userID);
+
+            PersistenceFactory::getMapperInstance(PRODUCT_ENTITY)->insert($uploadProduct);
+
+
+
+        }
 
     }
 

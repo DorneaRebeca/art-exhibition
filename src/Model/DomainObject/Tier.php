@@ -21,7 +21,7 @@ class Tier
      * @param $pathWithWatermark
      * @param $pathWithoutWatermark
      */
-    public function __construct($id = null, $productID, $size, $price, $pathWithWatermark, $pathWithoutWatermark)
+    public function __construct( $productID, $size, $price, $pathWithWatermark, $pathWithoutWatermark, $id = null)
     {
         $this->id = $id;
         $this->productID = $productID;

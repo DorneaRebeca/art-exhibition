@@ -34,8 +34,8 @@ class TierFinder extends AbstractFinder
     public function mapToDomainObject($row)
     {
 
-        return new Tier($row[self::TIER_ID], $row[self::PRODUCT_ID], $row[self::SIZE], $row[self::PRICE],
-                        $row[self::PATH_WITH_WATERMARK], $row[self::PATH_WITHOUT_WATERMARK]);
+        return new Tier( $row[self::PRODUCT_ID], $row[self::SIZE], $row[self::PRICE],
+                        $row[self::PATH_WITH_WATERMARK], $row[self::PATH_WITHOUT_WATERMARK], $row[self::TIER_ID]);
     }
 
     /**

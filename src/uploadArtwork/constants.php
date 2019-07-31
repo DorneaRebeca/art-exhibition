@@ -18,3 +18,9 @@ const FLOAT_PATTERN = '/([0-9]*[.])?[0-9]+[$|\s]/';
 const IMAGE_NAME_PATTERN = '/(\w+)\.[jpeg|jpg|png]+$/';
 
 const DEFAULT_PATH = '/var/www/art-exhibition/uploadArtwork/uploads';
+
+const LOGGED_USER = 'loggedUser';
+
+const PRODUCT_ENTITY = 'product';
+const USER_ENTITY = 'user';
+const TIER_ENTITY = 'tier';

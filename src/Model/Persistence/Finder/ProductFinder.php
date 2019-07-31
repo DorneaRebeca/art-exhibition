@@ -19,8 +19,8 @@ class ProductFinder extends AbstractFinder
     {
         $tags = $this->getTags($row['idproduct']);
         $captureDate = new \DateTime($row['captureDate']);
-        return new Product($row['idproduct'], $row['iduser'], $row['title'],
-            $row['description'], $tags, $row['cameraSpecs'], $captureDate, $row['thumbnailPath'] );
+        return new Product(  $row['title'],
+            $row['description'], $tags, $row['cameraSpecs'], $captureDate, $row['thumbnailPath'], $row['iduser'], $row['idproduct']);
     }
 
     /**

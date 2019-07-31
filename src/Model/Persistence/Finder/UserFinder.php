@@ -47,7 +47,7 @@ class UserFinder extends AbstractFinder
 
     public function mapToDomainObject($row)
     {
-        return new User($row['email'], $row['password'], $row['iduser'], $row['name']);
+        return new User($row['email'], $row['password'],  $row['name'], $row['iduser']);
 
     }
 
