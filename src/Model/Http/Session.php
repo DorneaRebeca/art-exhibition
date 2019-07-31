@@ -39,6 +39,11 @@ class Session
 
     }
 
+    public function unsetSessionData($sessionParameter)
+    {
+        unset($_SESSION[$sessionParameter]);
+    }
+
     /**
      * @param $sessionKey
      * @param $sessionValue
@@ -52,7 +57,7 @@ class Session
     {
         if(isset(self::$sessionInstance))
         {
-            session_abort();
+            session_clo();
             self::$sessionInstance = null;
         }
 

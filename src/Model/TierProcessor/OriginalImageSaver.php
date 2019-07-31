@@ -5,8 +5,6 @@ namespace Art\Model\TierProcessor;
 class OriginalImageSaver
 {
 
-
-
     public function saveOriginalImage($filesData)
     {
         $imageName = uniqid().'.'.pathinfo($filesData[IMG_SOURCE][FILE_NAME], PATHINFO_EXTENSION);

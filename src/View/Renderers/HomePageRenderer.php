@@ -5,7 +5,7 @@ namespace Art\View\Renderers;
 use Art\Model\DomainObject\Product;
 use Art\Model\Http\Session;
 
-class HomePageRenderer
+class HomePageRenderer implements RendererInterface
 {
     private $isLogged = false;
     /**
@@ -41,8 +41,6 @@ class HomePageRenderer
      */
     public function createDisplayData($displayProducts) : array
     {
-        //TODO : get image price from tier
-        //TODO : get artistName from User
         $displayData = [];
         foreach ($displayProducts as $product)
         {
@@ -52,6 +50,7 @@ class HomePageRenderer
           $data[CAPTURE_DATE] = $product->getCaptureDate();
           $data[CAMERA_SPECS] = $product->getCameraSpecs();
           $data[IMG_SOURCE] = $product->getThumbnailPath();
+          $data[ID_PRODUCT] = $product->getId();
           $displayData[] = $data;
 
         }

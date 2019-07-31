@@ -12,6 +12,9 @@ const CAMERA_SPECS = 'cameraSpecs';
 const IMG_PRICE = 'imagePrice';
 const CAPTURE_DATE ='captureDate';
 const PHOTOGRAPHY_TYPE = 'photographyType';
+const IMG_SIZE = 'size';
+
+const ID_PRODUCT = "idproduct";
 
 const IMG_SOURCE = 'imageSource';
 const FILE_MIME_TYPE = 'tmp_name';

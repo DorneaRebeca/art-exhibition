@@ -4,8 +4,8 @@
 namespace Art\Controller;
 
 
+use Art\Model\DomainObject\Tier;
 use Art\Model\FormMapper\UploadImageFormMapper;
-use Art\Model\DomainObject\Product;
 use Art\Model\Http\Request;
 use Art\Model\Http\Session;
 use Art\Model\Persistence\PersistenceFactory;
@@ -27,6 +27,7 @@ class ProductController
      */
     private $buyProductForm;
 
+
     /**
      * @var Session
      */
@@ -43,11 +44,14 @@ class ProductController
     }
 
 
+    /**
+     *
+     */
     public function showProducts()
     {
         $this->homePageForm = new HomePageRenderer();
 
-        $products = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findALl();
+        $products = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findAll();
 
         $this->homePageForm->displayPage($products);
     }
@@ -59,15 +63,19 @@ class ProductController
     }
 
 
-    public function showProduct()
+    public function showProduct($productID)
     {
-        $this->buyProductForm = new ProductPageRenderer();
-        $p = new Product(null,4,'Ho-ho-ho4', 'asdf', ['ptoj','dgfhf','dds'],'camera specs','2000-04-06','https://source.unsplash.com/M185_qYH8vg/400x300');
 
-        $this->buyProductForm->displayPage($p);
+        $product = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findByID($productID);
+
+
+        $tiers = PersistenceFactory::getFinderInstance(TIER_ENTITY)->findByProductID($productID);
+
+        $this->buyProductForm = new ProductPageRenderer();
+        $this->buyProductForm->displayPage($tiers, $product);
     }
 
-    public function buyProduct()
+    public function buyProduct($tierID)
     {
 
     }

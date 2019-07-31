@@ -15,8 +15,9 @@
 </head>
 <body>
 <a href="/user/register"> Sign up </a>
-<a href="/user/login"> Sign in </a>
 <a href="/product/uploadProduct"> Upload Artwork </a>
+<a href="/product/showProducts"> Home Page </a>
+<a href="/user/logout">Sign out</a>
 
 
 

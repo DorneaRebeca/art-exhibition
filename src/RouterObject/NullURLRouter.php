@@ -15,4 +15,16 @@ class NullURLRouter extends Router
         $this->setControllerMethod('showProducts');
     }
 
+    /**
+     * Calls the routed method from specific controllerClass
+     * @return mixed
+     */
+    public function callControllerMethod()
+    {
+        $controllerClass = $this->getControllerClass();
+
+        $controller = new $controllerClass;
+
+        $controller->{$this->getControllerMethod()}();
+    }
 }

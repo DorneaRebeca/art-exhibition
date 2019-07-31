@@ -41,6 +41,9 @@ class UserController
      */
     private $session;
 
+    /**
+     * @var Request
+     */
     private $request;
 
 
@@ -51,6 +54,7 @@ class UserController
         $this->registerForm= RegisterPageRenderer::createRenderer();
         $this->profileForm= ProfilePageRenderer::createRenderer();
 
+        $this->session = Session::createSession();
         $this->request = Request::createRequest();
 
     }
@@ -73,8 +77,7 @@ class UserController
 
     public function logout()
     {
-        $session =Session::createSession();
-        $session->abortSession();
+        $this->session->unsetSessionData(self::LOGGED_USER);
 
         header('Location:/');
 
@@ -88,7 +91,6 @@ class UserController
 
         if($user = PersistenceFactory::getFinderInstance('user')->findByEmail($user->getEmail()))
         {
-            $this->session = Session::createSession();
             $this->session->setSessionData(self::LOGGED_USER, $user->getId());
 
             $this->showProfile();
@@ -110,6 +112,7 @@ class UserController
 
     public function getOrders()
     {
+
 
     }
 

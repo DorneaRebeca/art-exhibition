@@ -20,6 +20,13 @@ abstract class Router
      */
     public abstract function setControllerProperties();
 
+    /**
+     * Calls the routed method from specific controllerClass
+     * @return mixed
+     */
+    public abstract function callControllerMethod();
+
+
 
     /**
      * @return mixed

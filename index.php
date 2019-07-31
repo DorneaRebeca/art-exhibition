@@ -19,11 +19,7 @@ $config = include 'src/config.php';
         $router = new ConcreteRouter($_SERVER['REQUEST_URI']);
     }
 
-    $controllerClass = $router->getControllerClass();
-
-    $controller = new $controllerClass;
-
-    $controller->{$router->getControllerMethod()}();
+    $router->callControllerMethod();
 
 
 

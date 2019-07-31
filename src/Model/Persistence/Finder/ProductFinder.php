@@ -94,4 +94,22 @@ class ProductFinder extends AbstractFinder
     }
 
 
+    public function findByID($productID)
+    {
+        $sql = "select * from product where idproduct=?";
+
+        $statement = $this->getPdo()->prepare($sql);
+        $statement->bindParam(1, $productID, PDO::PARAM_INT);
+        $statement->execute();
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $this->mapToDomainObject($result);
+    }
+
+
+
+
+
+
 }

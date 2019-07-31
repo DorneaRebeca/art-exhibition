@@ -14,6 +14,8 @@
 
 </head>
 <body>
+<a href="/product/showProducts">Home Page </a>
+<a href="/user/logout">Sign out</a>
 <div id="wrapper">
 
     <div id="content">

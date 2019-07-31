@@ -14,6 +14,8 @@
 
 </head>
 <body>
+<a href="/product/showProducts">Home Page </a>
+
 <div class="'wrapper">
     <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">

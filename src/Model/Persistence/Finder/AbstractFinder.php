@@ -34,7 +34,7 @@ abstract class AbstractFinder
      * Retrieves all data in a db table
      * @return array
      */
-    public abstract function findALl() : array;
+    public abstract function findAll() : array;
 
 
 

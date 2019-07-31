@@ -19,7 +19,7 @@ class LoginPageRenderer
         return new self();
     }
 
-    public function displayPage()
+    public function displayPage(array $data = [])
     {
         require 'src/View/Templates/loginForm.php';
     }
