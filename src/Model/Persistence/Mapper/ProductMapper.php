@@ -14,7 +14,6 @@ class ProductMapper extends AbstractMapper
     public function insert(Product $product)
     {
         $row = $this->mapToArray($product);
-        $this->insertProductTags($product->getTags(), $product);
 
         $sql = "INSERT into product (iduser, title, description, cameraSpecs, captureDate, thumbnailPath) 
                     VALUES (:iduser, :title, :description, :cameraSpecs, :captureDate, :thumbnailPath) ";
@@ -27,8 +26,11 @@ class ProductMapper extends AbstractMapper
         $statement->bindValue('thumbnailPath', $row['thumbnailPath']);
         $statement->execute();
 
+        $product->setId($this->getPdo()->lastInsertId());
 
+        PersistenceFactory::getMapperInstance(TAG_ENTITY)->insertTags($product);
 
+        return $product->getId();
     }
 
     /**
@@ -49,29 +51,7 @@ class ProductMapper extends AbstractMapper
         return $arrayData;
     }
 
-    /**
-     * Creates data to link products and tags in database
-     * @param $tags
-     * @param Product $product
-     */
-    private function insertProductTags($tags, Product $product)
-    {
-        $productID = PersistenceFactory::getFinderInstance('product')->findByThumbnailPath($product->getThumbnailPath());
-        foreach ($tags as $tag)
-        {
-            $tagID = PersistenceFactory::getFinderInstance(TAG_ENTITY)->findByTagName($tag);
-            /**
-             * if tag doesn't exist in db insert it!
-             */
-            if( ! $tagID )
-            {
-                PersistenceFactory::getMapperInstance(TAG_ENTITY)->insert($tag);
-                $tagID = PersistenceFactory::getFinderInstance(TAG_ENTITY)->findByTagName($tag);
-            }
 
-            PersistenceFactory::getMapperInstance(TAG_ENTITY)->insertProductTag($tagID, $productID);
-        }
-    }
 
 
 }

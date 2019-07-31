@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Art\View\Renderers;
-require_once 'src/uploadArtwork/constants.php';
 
 use Art\View\Request;
 

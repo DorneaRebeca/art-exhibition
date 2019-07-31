@@ -5,7 +5,8 @@ use Art\RouterObject\ConcreteRouter;
 use Art\RouterObject\NullURLRouter;
 
 require 'vendor/autoload.php';
-ini_set('display_errors', 'ON');
+require_once 'src/constants.php';
+
 $config = include 'src/config.php';
 
     if( strlen($_SERVER['REQUEST_URI']) <= 1)

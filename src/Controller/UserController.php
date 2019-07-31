@@ -34,12 +34,14 @@ class UserController
     /**
      * @var HomePageRenderer
      */
-    private $homePageForm;
+    private  $homePageForm;
 
     /**
      * @var Session
      */
     private $session;
+
+    private $request;
 
 
     public function __construct()
@@ -48,6 +50,8 @@ class UserController
         $this->loginForm = LoginPageRenderer::createRenderer();
         $this->registerForm= RegisterPageRenderer::createRenderer();
         $this->profileForm= ProfilePageRenderer::createRenderer();
+
+        $this->request = Request::createRequest();
 
     }
 
@@ -78,16 +82,14 @@ class UserController
 
     public function loginPost()
     {
-        $loginRequest = Request::createRequest();
 
-        $mapper = new LoginFormMapper($loginRequest);
+        $mapper = new LoginFormMapper($this->request);
         $user = $mapper->getUserFromLoginForm();
 
         if($user = PersistenceFactory::getFinderInstance('user')->findByEmail($user->getEmail()))
         {
             $this->session = Session::createSession();
             $this->session->setSessionData(self::LOGGED_USER, $user->getId());
-            $this->session->setSessionData('isLogged', true);
 
             $this->showProfile();
         }
@@ -95,8 +97,7 @@ class UserController
 
     public function registerPost()
     {
-        $registerRequest = Request::createRequest();
-        $mapper = new RegisterFormMapper($registerRequest);
+        $mapper = new RegisterFormMapper($this->request);
 
         //TODO : validations : passwords match, account already exists, email
 
@@ -107,7 +108,7 @@ class UserController
         $this->loginForm->displayPage();
     }
 
-    public function showOrders()
+    public function getOrders()
     {
 
     }

@@ -2,8 +2,6 @@
 
 namespace Art\View\Renderers;
 
-require_once 'src/uploadArtwork/constants.php';
-
 use Art\Model\DomainObject\Product;
 use Art\Model\Http\Session;
 

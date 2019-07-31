@@ -4,7 +4,7 @@ const USER_EMAIL = 'userEmail';
 const USER_PASSWORD = 'userPassword';
 
 //Path where the image will be saved in app
- const IMG_PATH = 'src/assets/savedData';
+ const IMG_PATH = 'src/assets/savedData'.DIRECTORY_SEPARATOR;
 
 const IMG_NAME = 'imageName';
 const IMG_DESCRIPTION = 'imageDescription';
@@ -32,7 +32,7 @@ const TIER_ENTITY = 'tier';
 const SIZE_ENUM=['small', 'medium', 'large'];
 const SMALL = 0;
 const MEDIUM = 1;
-const LARGE = 0;
+const LARGE = 2;
 
 
 

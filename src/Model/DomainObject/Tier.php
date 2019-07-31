@@ -31,7 +31,6 @@ class Tier
         $this->pathWithoutWatermark = $pathWithoutWatermark;
     }
 
-
     /**
      * @return mixed
      */

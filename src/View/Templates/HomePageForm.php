@@ -13,6 +13,11 @@
 
 </head>
 
+<a href="/user/register"> Sign up </a>
+<a href="/user/login"> Sign in </a>
+<a href="/product/uploadProduct"> Upload Artwork </a>
+
+
 <div class="wrapper">
 
     <?php foreach ($displayData as $product):?>

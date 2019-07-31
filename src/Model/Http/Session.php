@@ -7,14 +7,21 @@ namespace Art\Model\Http;
 class Session
 {
 
+    public static $sessionInstance;
+
     public static function createSession()
     {
-        return new Session();
+        if(!isset(self::$sessionInstance) || self::$sessionInstance == null)
+        {
+            session_start();
+            self::$sessionInstance = new self();
+        }
+
+        return self::$sessionInstance;
     }
 
     public function getSession()
     {
-        session_start();
         return $_SESSION;
     }
 
@@ -25,6 +32,9 @@ class Session
      */
     public function getSpecificSession($sessionParameter)
     {
+        if(!isset($_SESSION[$sessionParameter]))
+            return false;
+
         return $_SESSION[$sessionParameter];
 
     }
@@ -40,7 +50,12 @@ class Session
 
     public function abortSession()
     {
-        session_abort();
+        if(isset(self::$sessionInstance))
+        {
+            session_abort();
+            self::$sessionInstance = null;
+        }
+
     }
 
 

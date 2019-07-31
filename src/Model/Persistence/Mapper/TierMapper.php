@@ -2,6 +2,7 @@
 namespace Art\Model\Persistence\Mapper;
 
 use Art\Model\DomainObject\Tier;
+use PDO;
 
 class TierMapper extends AbstractMapper
 {
@@ -18,14 +19,14 @@ class TierMapper extends AbstractMapper
         $row = $this->mapToArray($tier);
         
         $sql = "INSERT into tier (price, pathWithWatermark, pathWithoutWatermark, size, idproduct) VALUES
-                        (:price,:pathWithWatermark, :patheWithoutWatermark, :size, :idproduct) ";
+                        (:price,:pathWithWatermark, :pathWithoutWatermark, :size, :idproduct) ";
         $statement = $this->getPdo()->prepare($sql);
 
-        $statement->bindValue(self::PRICE, $row[self::PRICE]);
-        $statement->bindValue(self::PATH_WITH_WATERMARK, $row[self::PATH_WITH_WATERMARK]);
-        $statement->bindValue(self::PATH_WITHOUT_WATERMARK, $row[self::PATH_WITHOUT_WATERMARK]);
-        $statement->bindValue(self::SIZE, $row[self::SIZE]);
-        $statement->bindValue(self::PRODUCT_ID, $row[self::PRODUCT_ID]);
+        $statement->bindValue(self::PRICE, $tier->getPrice(), PDO::PARAM_INT);
+        $statement->bindValue(self::PATH_WITH_WATERMARK, $tier->getPathWithWatermark());
+        $statement->bindValue(self::PATH_WITHOUT_WATERMARK, $tier->getPathWithoutWatermark());
+        $statement->bindValue(self::SIZE, $tier->getSize());
+        $statement->bindValue(self::PRODUCT_ID, $tier->getProductID(), PDO::PARAM_INT);
         $statement->execute();
     }
 

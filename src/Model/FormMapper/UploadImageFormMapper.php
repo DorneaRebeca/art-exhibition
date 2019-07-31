@@ -1,8 +1,7 @@
 <?php
 
-namespace Art\Controller\Model\FormMapper;
+namespace Art\Model\FormMapper;
 
-require 'src/constants.php';
 
 use Art\Model\DomainObject\Product;
 use Art\Model\Http\Request;
@@ -19,20 +18,18 @@ class UploadImageFormMapper
         $this->request = $request;
     }
 
-    private function getImageExtension($imageName)
-    {
-        $parts = explode('.', $imageName);
-        return $parts[sizeof($parts) - 1];
-    }
+
 
     public function getProductFromUploadForm($userID)
     {
+        $imgExtension = pathinfo($this->request->getFileSpecific(FILE_NAME), PATHINFO_EXTENSION);
+
         $title = $this->request->getPostSpecific(IMG_NAME);
         $description = $this->request->getPostSpecific(IMG_DESCRIPTION);
         $tags = $this->request->getPostSpecific(PHOTOGRAPHY_TYPE);
         $cameraSpecs = $this->request->getPostSpecific(CAMERA_SPECS);
         $captureDate = new \DateTime($this->request->getPostSpecific(CAPTURE_DATE));
-        $thumbnailPath = uniqid().$this->getImageExtension( $this->request->getFileSpecific(FILE_MIME_TYPE));
+        $thumbnailPath = uniqid().'.'.$imgExtension;
 
         return new Product($title, $description, $tags, $cameraSpecs, $captureDate, $thumbnailPath, $userID);
     }

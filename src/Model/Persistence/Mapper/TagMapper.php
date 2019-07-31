@@ -4,6 +4,8 @@
 namespace Art\Model\Persistence\Mapper;
 
 
+use Art\Model\DomainObject\Product;
+use Art\Model\Persistence\PersistenceFactory;
 use PDO;
 
 class TagMapper extends AbstractMapper
@@ -26,6 +28,33 @@ class TagMapper extends AbstractMapper
         $statement->bindValue(2, $productID, PDO::PARAM_INT);
         $statement->execute();
     }
+
+    /**
+     * Creates data to link products and tags in database
+     * @param $tags
+     * @param Product $product
+     */
+    public function insertTags(Product $product)
+    {
+        $productID = $product->getId();
+        foreach ($product->getTags() as $tag)
+        {
+            $tagID = PersistenceFactory::getFinderInstance(TAG_ENTITY)->findByTagName($tag);
+            /**
+             * if tag doesn't exist in db insert it!
+             */
+            if( ! $tagID )
+            {
+               $this->insert($tag);
+                $tagID = PersistenceFactory::getFinderInstance(TAG_ENTITY)->findByTagName($tag);
+            }
+
+            $this->insertProductTag($tagID, $productID);
+        }
+    }
+
+
+
 
 
     /**

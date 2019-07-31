@@ -20,6 +20,11 @@ class Request
         return $_GET;
     }
 
+    public function getFileData()
+    {
+        return $_FILES;
+    }
+
     public function getPostSpecific($postParameter)
     {
         return $_POST[$postParameter];
@@ -32,7 +37,7 @@ class Request
 
     public function getFileSpecific($fileParameter)
     {
-        return $_FILES[$fileParameter];
+        return $_FILES[IMG_SOURCE][$fileParameter];
     }
 
 

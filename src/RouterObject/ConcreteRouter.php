@@ -6,6 +6,9 @@ namespace Art\RouterObject;
 
 class ConcreteRouter extends Router
 {
+    private const CLASS_INDEX = 1;
+    private const METHOD_INDEX = 2;
+
     /**
      * Sets controllerMethod and controllerClass from path information
      */
@@ -13,9 +16,9 @@ class ConcreteRouter extends Router
     {
         $urlCommands = explode('/', $this->getPath());
 
-        $this->setControllerMethod($urlCommands[sizeof($urlCommands) - 1]);
+        $this->setControllerMethod($urlCommands[self::METHOD_INDEX] );
 
-        $controllerClass = $this->createControllerPath($urlCommands[sizeof($urlCommands) - 2]);
+        $controllerClass = $this->createControllerPath($urlCommands[self::CLASS_INDEX]);
 
         $this->setControllerClass($controllerClass);
 

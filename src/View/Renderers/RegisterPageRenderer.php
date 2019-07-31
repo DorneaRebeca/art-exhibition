@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Art\View\Renderers;
-
 
 class RegisterPageRenderer
 {

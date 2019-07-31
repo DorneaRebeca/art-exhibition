@@ -4,8 +4,6 @@ namespace Art\View\Renderers;
 
 use Art\Model\Http\Request;
 
-require 'src/constants.php';
-
 
 class LoginPageRenderer
 {

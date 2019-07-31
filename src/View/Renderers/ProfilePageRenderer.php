@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Art\View\Renderers;
-
 
 use Art\Model\DomainObject\Product;
 use Art\Model\Http\Request;
