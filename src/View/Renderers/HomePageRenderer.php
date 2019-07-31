@@ -5,17 +5,33 @@ namespace Art\View\Renderers;
 require_once 'src/uploadArtwork/constants.php';
 
 use Art\Model\DomainObject\Product;
-use Art\View\Request;
+use Art\Model\Http\Session;
 
 class HomePageRenderer
 {
+    private $isLogged = false;
+    /**
+     * @var Session
+     */
+    private $session;
 
     public function __construct()
     {
+        $this->session = Session::createSession();
+    }
+
+    public static function createRenderer()
+    {
+        return new self();
     }
 
     public function displayPage(array $displayProducts)
     {
+        if($this->session->getSpecificSession('isLogged') )
+        {
+            $this->isLogged = true;
+        }
+
         $displayData = $this->createDisplayData($displayProducts);
         require 'src/View/Templates/HomePageForm.php';
 

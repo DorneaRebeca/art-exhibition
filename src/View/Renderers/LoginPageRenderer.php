@@ -16,6 +16,11 @@ class LoginPageRenderer
         $this->request = new Request();
     }
 
+    public static function createRenderer()
+    {
+        return new self();
+    }
+
     public function displayPage()
     {
         require 'src/View/Templates/loginForm.php';

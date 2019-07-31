@@ -34,6 +34,7 @@ class ProductController
     public  function uploadProduct()
     {
         require 'src/uploadArtwork/index.php';
+        //TODO : in lco de SuccessPage sa ma trimita la flow-ul aplicatiei si sa salvez datele in db;
 
     }
 

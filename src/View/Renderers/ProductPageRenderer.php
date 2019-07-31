@@ -15,6 +15,12 @@ class ProductPageRenderer
         $this->request = new Request();
     }
 
+    public static function createRenderer()
+    {
+        return new self();
+    }
+
+
     public function displayPage($displayProduct)
     {
         $product = $this->createProductData($displayProduct);

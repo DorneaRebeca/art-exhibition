@@ -3,15 +3,17 @@
 
 namespace Art\View\Renderers;
 
-use Art\View\Request;
 
 class RegisterPageRenderer
 {
-    private $request;
 
     public function __construct()
     {
-        $this->request = new Request();
+    }
+
+    public static function createRenderer()
+    {
+        return new self();
     }
 
     public function displayPage()

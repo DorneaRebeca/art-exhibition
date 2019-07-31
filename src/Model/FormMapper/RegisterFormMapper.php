@@ -1,15 +1,18 @@
 <?php
 
+
 namespace Art\Model\FormMapper;
+
 
 use Art\Model\DomainObject\User;
 use Art\Model\Http\Request;
 
-
-class LoginFormMapper
+class RegisterFormMapper
 {
-    private const EMAIL = 'userEmail';
-    private const PASSWORD = 'userPassword';
+    private const NAME='name';
+    private const EMAIL='email';
+    private const PASSWORD='password';
+
 
     /**
      * @var Request
@@ -26,14 +29,13 @@ class LoginFormMapper
 
     public function getUserFromLoginForm()
     {
+        $name = $this->request->getPostSpecific(self::NAME);
         $email = $this->request->getPostSpecific(self::EMAIL);
         $password = $this->request->getPostSpecific(self::PASSWORD);
 
         $encrypted = password_hash($password, PASSWORD_BCRYPT);
 
-        return new User($email, $encrypted);
+        return new User($name, $email, $password);
     }
-
-
 
 }

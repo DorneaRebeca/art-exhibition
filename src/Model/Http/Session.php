@@ -38,4 +38,10 @@ class Session
         $_SESSION[$sessionKey] = $sessionValue;
     }
 
+    public function abortSession()
+    {
+        session_abort();
+    }
+
+
 }

@@ -39,7 +39,6 @@ class ProductFinder extends AbstractFinder
         {
             $resultProducts[] = $this->mapToDomainObject($row);
         }
-        var_dump($resultProducts);
         return $resultProducts;
 
     }
@@ -73,6 +72,25 @@ class ProductFinder extends AbstractFinder
 
         return $resultTags;
 
+    }
+
+    public function findUserProducts($userID)
+    {
+        $sql = "select * from product natural join user where iduser=?";
+
+        $statement = $this->getPdo()->prepare($sql);
+        $statement->bindParam(1, $userID, PDO::PARAM_INT);
+        $statement->execute();
+
+
+        $products = [];
+
+        while($row = $statement->fetch(PDO::FETCH_ASSOC) )
+        {
+            $products[] = $this->mapToDomainObject($row);
+        }
+
+        return $products;
     }
 
 

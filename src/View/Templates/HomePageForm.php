@@ -11,14 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
 
-
 </head>
-<body>
-<a href="/user/register"> Sign up </a>
-<a href="/user/login"> Sign in </a>
-<a href="/product/uploadProduct"> Upload Artwork </a>
-<a href="/user/showProfile"> My Account </a>
-<a href="/product/showProduct"> See Product </a>
 
 <div class="wrapper">
 
@@ -81,12 +74,6 @@
     <?php endforeach; ?>
 
 </div>
-
-
-
-
-</body>
-
 
 
 </html>
