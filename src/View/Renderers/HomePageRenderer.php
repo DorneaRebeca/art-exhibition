@@ -52,8 +52,7 @@ class HomePageRenderer implements RendererInterface
           $data[PHOTOGRAPHY_TYPE] = $product->getTags();
           $data[CAPTURE_DATE] = $product->getCaptureDate();
           $data[CAMERA_SPECS] = $product->getCameraSpecs();
-//          $data[IMG_SOURCE] = self::IMAGE_PATH.$product->getThumbnailPath();
-          $data[IMG_SOURCE] = $product->getThumbnailPath();
+          $data[IMG_SOURCE] = self::IMAGE_PATH.$product->getThumbnailPath();
           $data[ID_PRODUCT] = $product->getId();
           $displayData[] = $data;
 

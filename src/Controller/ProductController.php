@@ -4,12 +4,14 @@
 namespace Art\Controller;
 
 
+use Art\Model\DomainObject\Product;
 use Art\Model\DomainObject\Tier;
 use Art\Model\FormMapper\UploadImageFormMapper;
 use Art\Model\Http\Request;
 use Art\Model\Http\Session;
 use Art\Model\Persistence\PersistenceFactory;
 use Art\Model\TierProcessor\OriginalImageSaver;
+use Art\Model\TierProcessor\ThumbnailCreator;
 use Art\Model\TierProcessor\TierCreator;
 use Art\View\Renderers\HomePageRenderer;
 use Art\View\Renderers\ProductPageRenderer;
@@ -96,9 +98,20 @@ class ProductController
 
             $originalImageName = $this->saveOriginalImage();
 
+            $this->createProductThumbnail($originalImageName, $uploadProduct);
+
             $this->saveTiers($productID, $originalImageName);
 
+            header('Location:/user/showProfile');
+
             }
+
+    }
+
+    private function createProductThumbnail($imageName,Product $product)
+    {
+        $thumbnailCreator = new ThumbnailCreator();
+        $thumbnailCreator->saveThumbnail($imageName, $product->getThumbnailPath());
 
     }
 

@@ -9,6 +9,7 @@ body {
     background-size:cover;
     position:relative;
     overflow-y: hidden;
+    scroll-behavior: auto;
 
 }
 
