@@ -9,6 +9,7 @@ require_once 'src/constants.php';
 
 $config = include 'src/config.php';
 
+
     if( strlen($_SERVER['REQUEST_URI']) <= 1)
     {
         $router = new NullURLRouter($_SERVER['REQUEST_URI']);

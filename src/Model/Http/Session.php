@@ -30,7 +30,7 @@ class Session
      * @param $sessionParameter
      * @return mixed
      */
-    public function getSpecificSession($sessionParameter)
+    public function getSpecificSession($sessionParameter = null)
     {
         if(!isset($_SESSION[$sessionParameter]))
             return false;
@@ -55,9 +55,8 @@ class Session
 
     public function abortSession()
     {
-        if(isset(self::$sessionInstance))
-        {
-            session_clo();
+        if(isset(self::$sessionInstance)) {
+            session_abort();
             self::$sessionInstance = null;
         }
 

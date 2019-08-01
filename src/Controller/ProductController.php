@@ -5,7 +5,6 @@ namespace Art\Controller;
 
 
 use Art\Model\DomainObject\Product;
-use Art\Model\DomainObject\Tier;
 use Art\Model\FormMapper\UploadImageFormMapper;
 use Art\Model\Http\Request;
 use Art\Model\Http\Session;
@@ -13,7 +12,10 @@ use Art\Model\Persistence\PersistenceFactory;
 use Art\Model\TierProcessor\OriginalImageSaver;
 use Art\Model\TierProcessor\ThumbnailCreator;
 use Art\Model\TierProcessor\TierCreator;
+use Art\Model\TierProcessor\TierDownloader;
+use Art\Model\Validations\FormValidations\UploadProductFormValidator;
 use Art\View\Renderers\HomePageRenderer;
+use Art\View\Renderers\LoginPageRenderer;
 use Art\View\Renderers\ProductPageRenderer;
 
 
@@ -29,7 +31,6 @@ class ProductController
      */
     private $buyProductForm;
 
-
     /**
      * @var Session
      */
@@ -43,23 +44,26 @@ class ProductController
     public function __construct()
     {
         $this->request = Request::createRequest();
+        $this->session = Session::createSession();
+        $this->homePageForm = new HomePageRenderer();
+        $this->buyProductForm = new ProductPageRenderer();
     }
 
 
     /**
-     *
+     *Swhos all products or filtered
      */
-    public function showProducts()
+    public function showProducts($pageNumber)
     {
-        $this->homePageForm = new HomePageRenderer();
 
-        $products = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findAll();
 
+        $products = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findWithLimit($pageNumber);
         $this->homePageForm->displayPage($products);
     }
 
-    public  function uploadProduct()
+    public  function uploadProduct($errorData = null)
     {
+        $errors = $errorData;
         require 'src/View/Templates/uploadProductForm.php';
 
     }
@@ -71,41 +75,61 @@ class ProductController
 
         $tiers = PersistenceFactory::getFinderInstance(TIER_ENTITY)->findByProductId($productID);
 
-        $this->buyProductForm = new ProductPageRenderer();
         $this->buyProductForm->displayPage($product, $tiers);
     }
 
     public function buyProduct($tierID)
     {
-        echo 'You just brought it!!!!!! >:D< ';
+
+        if(!$this->session->getSpecificSession(LOGGED_USER)) {
+            $this->goToLogin();
+            return;
+        }
+        $userID =  $this->session->getSpecificSession(LOGGED_USER);
+
+        PersistenceFactory::getMapperInstance(ORDER_ENTITY)->insert($userID, $tierID);
+
+        $image = PersistenceFactory::getFinderInstance(TIER_ENTITY)->findById($tierID);
+
+        $tierDownloader = new TierDownloader();
+        $tierDownloader->downloadTier($image->getPathWithoutWatermark());
 
     }
 
     /**
-     * Creates a new product and three new re-dimensioned tiers
+     * Creates a new product and three new re-dimensioned tiers if data is valid
      */
     public function uploadProductPost()
     {
         $this->session = Session::createSession();
 
-        if($this->session->getSpecificSession(LOGGED_USER))
-        {
-            $userID = $this->session->getSpecificSession(LOGGED_USER);
+        if(!$this->session->getSpecificSession(LOGGED_USER)) {
+            $this->goToLogin();
+            return;
+        }
 
-            $uploadProduct = $this->createProductFromForm( $userID);
+        //validations
+        $validator = new UploadProductFormValidator();
+        $errors = $validator->validateAll($this->request->getPostVariable(), $this->request->getFileData());
 
-            $productID = PersistenceFactory::getMapperInstance(PRODUCT_ENTITY)->insert($uploadProduct);
+        if($errors) {
+            $this->uploadProduct($errors);
+            return;
+        }
 
-            $originalImageName = $this->saveOriginalImage();
+        $userID = $this->session->getSpecificSession(LOGGED_USER);
 
-            $this->createProductThumbnail($originalImageName, $uploadProduct);
+        $uploadProduct = $this->createProductFromForm( $userID);
 
-            $this->saveTiers($productID, $originalImageName);
+        $productID = PersistenceFactory::getMapperInstance(PRODUCT_ENTITY)->insert($uploadProduct);
 
-            header('Location:/user/showProfile');
+        $originalImageName = $this->saveOriginalImage();
 
-            }
+        $this->createProductThumbnail($originalImageName, $uploadProduct);
 
+        $this->saveTiers($productID, $originalImageName);
+
+        header('Location:/');
     }
 
     private function createProductThumbnail($imageName,Product $product)
@@ -136,6 +160,15 @@ class ProductController
         $tierCreator = new TierCreator();
         $tierCreator->generateTiers($productID, $this->request->getPostSpecific(IMG_PRICE), $imageName);
 
+    }
+
+    /**
+     * redirects page to login page
+     */
+    private function goToLogin()
+    {
+        $renderer = new LoginPageRenderer();
+        $renderer->displayPage();
     }
 
 }

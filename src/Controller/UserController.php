@@ -7,11 +7,13 @@ use Art\Model\FormMapper\RegisterFormMapper;
 use Art\Model\Http\Request;
 use Art\Model\Http\Session;
 use Art\Model\Persistence\PersistenceFactory;
+use Art\Model\Validations\FormValidations\LoginFormValidation;
+use Art\Model\Validations\FormValidations\RegisterFormValidator;
 use Art\View\Renderers\HomePageRenderer;
 use Art\View\Renderers\LoginPageRenderer;
-use Art\View\Renderers\ProfilePageRenderer;
+use Art\View\Renderers\OrdersPageRenderer;
 use Art\View\Renderers\RegisterPageRenderer;
-
+use Art\View\Renderers\UploadsPageRenderer;
 
 
 class UserController
@@ -26,10 +28,7 @@ class UserController
      * @var RegisterPageRenderer
      */
     private $registerForm;
-    /**
-     * @var ProfilePageRenderer
-     */
-    private $profileForm;
+
 
     /**
      * @var HomePageRenderer
@@ -52,7 +51,6 @@ class UserController
         $this->homePageForm = HomePageRenderer::createRenderer();
         $this->loginForm = LoginPageRenderer::createRenderer();
         $this->registerForm= RegisterPageRenderer::createRenderer();
-        $this->profileForm= ProfilePageRenderer::createRenderer();
 
         $this->session = Session::createSession();
         $this->request = Request::createRequest();
@@ -69,12 +67,9 @@ class UserController
         $this->registerForm->displayPage();
     }
 
-    public function showProfile()
-    {
-        $uploads = $this->getUploads();
-        $this->profileForm->displayPage($uploads);
-    }
-
+    /**
+     * sets logged user on null and redirects to home page
+     */
     public function logout()
     {
         $this->session->unsetSessionData(self::LOGGED_USER);
@@ -83,52 +78,95 @@ class UserController
 
     }
 
+    /**
+     * finds user in database and set him as logged
+     */
     public function loginPost()
     {
 
         $mapper = new LoginFormMapper($this->request);
         $user = $mapper->getUserFromLoginForm();
+        $databaseUser = PersistenceFactory::getFinderInstance('user')->findByEmail($user->getEmail());
 
-        if($user = PersistenceFactory::getFinderInstance('user')->findByEmail($user->getEmail()))
-        {
-            $this->session->setSessionData(self::LOGGED_USER, $user->getId());
+        $loginValidator = new LoginFormValidation();
 
-            $this->showProfile();
+        if($errors = $loginValidator->validateData($databaseUser, $user)) {
+            $this->goToLogin($errors);
+            return;
         }
+        $this->session->setSessionData(self::LOGGED_USER, $databaseUser->getId());
+
+       header('Location:/');
+
     }
 
+    /**
+     * Saves user in the database , if inputs are valid and redirects to login page
+     */
     public function registerPost()
     {
         $mapper = new RegisterFormMapper($this->request);
-
-        //TODO : validations : passwords match, account already exists, email
-
         $registeredUser = $mapper->getUserFromLoginForm();
+
+        $validator = new RegisterFormValidator();
+        $confirmationPass = $this->request->getPostSpecific(PASSWORD_CONFIRMATION);
+
+        if($errors = $validator->validateIntroducedData($registeredUser, $confirmationPass)) {
+            $registration = new RegisterPageRenderer();
+            $registration->displayPage($errors);
+            return;
+        }
 
         PersistenceFactory::getMapperInstance('user')->insert($registeredUser);
         echo 'You have been registered successfully! Sign in to experience our world!'.PHP_EOL;
         $this->loginForm->displayPage();
     }
 
-    public function getOrders()
+    public function showOrders()
     {
-        
+        if(!$this->session->getSpecificSession(LOGGED_USER)) {
+            $this->goToLogin(null);
+            return;
+        }
+
+        $userOrderedProducts = PersistenceFactory::getFinderInstance(TIER_ENTITY)
+            ->findByOrders($this->session
+                ->getSpecificSession(self::LOGGED_USER));
+
+        $renderer = new OrdersPageRenderer();
+        $renderer->displayPage($userOrderedProducts);
+
+
+
+
 
     }
 
-    private function getUploads()
+    public function showUploads()
     {
-        if(isset($this->session))
-        {
-            $userUploadProducts = PersistenceFactory::getFinderInstance('product')
-                ->findUserProducts($this->session
-                                        ->getSpecificSession(self::LOGGED_USER));
-
-            return $userUploadProducts;
+        if(!$this->session->getSpecificSession(LOGGED_USER)) {
+            $this->goToLogin(null);
+            return;
         }
+        $userUploadProducts = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)
+            ->findUserProducts($this->session
+                                    ->getSpecificSession(self::LOGGED_USER));
 
-        return null;
+        $renderer = new UploadsPageRenderer();
+        $renderer->displayPage($userUploadProducts);
 
+
+
+
+    }
+
+    /**
+     * redirects page to login page
+     */
+    private function goToLogin($errors)
+    {
+        $renderer = new LoginPageRenderer();
+        $renderer->displayPage($errors);
     }
 
 }

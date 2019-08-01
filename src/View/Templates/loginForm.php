@@ -13,8 +13,6 @@
 
 
 </head>
-<body>
-<a href="/product/showProducts">Home Page </a>
 
 <div class="wrapper">
     <div class="row">
@@ -45,7 +43,13 @@
         </div>
     </div>
 </div>
-</body>
+
+<?php if ($errors) {
+    foreach ($errors as $error) : ?>
+
+    <div style="color: red"><?php echo '*'.$error.'<br>'; ?></div>
+    <?php endforeach;
+} ?>
 
 
 

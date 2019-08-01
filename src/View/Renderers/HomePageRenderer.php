@@ -5,13 +5,15 @@ namespace Art\View\Renderers;
 use Art\Model\DomainObject\Product;
 use Art\Model\Http\Session;
 
-class HomePageRenderer implements RendererInterface
+class HomePageRenderer
 {
     private $isLogged = false;
     /**
      * @var Session
      */
     private $session;
+
+    private $pageForm;
 
     private const IMAGE_PATH = '../../../src/assets/savedData/';
 
@@ -26,16 +28,27 @@ class HomePageRenderer implements RendererInterface
         return new self();
     }
 
+    public function getHeader()
+    {
+        if($this->session->getSpecificSession(LOGGED_USER) )
+        {
+            return require 'src/View/Templates/loggedUserHeader.php';
+        }
+        return require 'src/View/Templates/defaultHeader.php';
+    }
+
     public function displayPage(array $displayProducts)
     {
-        if($this->session->getSpecificSession('isLogged') )
-        {
-            $this->isLogged = true;
-        }
-
+        $this->getHeader();
         $displayData = $this->createDisplayData($displayProducts);
-        require 'src/View/Templates/HomePageForm.php';
+        $commands = explode('/', $_SERVER['REQUEST_URI']);
 
+        $pageNumber = (int)$commands[ sizeof($commands) - 1 ] + 1;
+        $previousNumber = ($pageNumber-2);
+        if($previousNumber <= 0)
+            $previousNumber = 1;
+
+         require 'src/View/Templates/homePageForm.php';
     }
 
     /**

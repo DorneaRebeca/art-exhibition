@@ -13,8 +13,8 @@
 
 
 </head>
+
 <body>
-<a href="/product/showProducts">Home Page </a>
 
 <div class="'wrapper">
     <div class="row centered-form">
@@ -50,6 +50,10 @@
                             </div>
                         </div>
 
+                        <?php if ($errors) {?>
+                            <div style="color: red"><?php echo '*'.implode('<br>*', $errors) ?></div>
+                        <?php } ?>
+
                         <input type="submit" value="Register" class="btn btn-info btn-block">
 
                     </form>
@@ -58,6 +62,8 @@
         </div>
     </div>
 </div>
+
+
 
 </body>
 

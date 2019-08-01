@@ -25,6 +25,6 @@ class NullURLRouter extends Router
 
         $controller = new $controllerClass;
 
-        $controller->{$this->getControllerMethod()}();
+        $controller->{$this->getControllerMethod()}(0);
     }
 }

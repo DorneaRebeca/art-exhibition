@@ -138,11 +138,11 @@ class TierCreator
         //construct command :
 
         $commandWithoutWatermark = 'php /var/www/art-exhibition/image-modifier/src/my_command_line_tool.php  --input-file='.$inputImagePath.
-            ' --output-file='.$pathWithoutWatermark.' --width='.$width.' --height='.$height;
+                                    ' --output-file='.$pathWithoutWatermark.' --width='.$width.' --height='.$height;
         $this->runCommand($commandWithoutWatermark);
 
         $commandWithWatermark = 'php /var/www/art-exhibition/image-modifier/src/my_command_line_tool.php  --input-file='.$inputImagePath.
-            ' --output-file='.$pathWithWatermark.' --width='.$width.' --height='.$height.' --watermark='.self::WATERMARK_PATH;
+                                ' --output-file='.$pathWithWatermark.' --width='.$width.' --height='.$height.' --watermark='.self::WATERMARK_PATH;
         $this->runCommand($commandWithWatermark);
 
     }

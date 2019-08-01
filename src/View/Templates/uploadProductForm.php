@@ -13,9 +13,6 @@
 
 
 </head>
-<body>
-<a href="/product/showProducts">Home Page </a>
-<a href="/user/logout">Sign out</a>
 <div id="wrapper">
 
     <div id="content">
@@ -75,9 +72,9 @@
                 <input type="file" class="form-control-file" id="chooseImg" name="imageSource">
             </div>
 
-<!--            --><?php //if (isset($_POST) && $errors) {?>
-<!--                <div style="color: red">--><?php //echo '*'.implode('<br>*', $errors) ?><!--</div>-->
-<!--            --><?php //} ?>
+            <?php if ( $errors) {?>
+                <div style="color: red"><?php echo '*'.implode('<br>*', $errors) ?></div>
+            <?php } ?>
 
             <button type="submit" class="btn btn-success">Upload image</button>
 

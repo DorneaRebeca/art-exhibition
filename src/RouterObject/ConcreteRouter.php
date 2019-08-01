@@ -17,6 +17,7 @@ class ConcreteRouter extends Router
      */
     public function setControllerProperties()
     {
+
         $urlCommands = explode('/', $this->getPath());
 
         $this->setControllerMethod($urlCommands[self::METHOD_INDEX] );
@@ -51,13 +52,10 @@ class ConcreteRouter extends Router
     {
         $controllerClass = $this->getControllerClass();
         $controller = new $controllerClass;
-
         if($this->tierID)
         {
             $controller->{$this->getControllerMethod()}((int)$this->tierID);
-
             return;
-
         }
         $controller->{$this->getControllerMethod()}();
     }

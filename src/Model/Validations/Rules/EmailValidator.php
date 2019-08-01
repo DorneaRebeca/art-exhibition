@@ -1,29 +1,23 @@
 <?php
 
-namespace Model\Validations\Rules;
+namespace Art\Model\Validations\Rules;
 
-use Art\Model\Validations\Rules\ValidatorFactory;
 
 class EmailValidator implements ValidatorFactory
 {
 
-    private function _verifyA($string)
-    {
-        if( !strstr($string,'@') )
-            throw new \mysql_xdevapi\Exception('Email missing @ character');
-    }
-
-    private function _verifyPoint($string)
-    {
-        if( !strstr($string, '.') )
-            throw new \mysql_xdevapi\Exception('Wrong email form');
-    }
 
     public function validate($string)
     {
-        $this->_verifyA($string);
+        $errors = [];
+        if(! isset($string))
+            $errors[] =  'You didn\'t introduced email';
+        if( !strstr($string,'@') )
+            $errors[] = 'Email missing @ character';
 
-        $this->_verifyPoint($string);
+        if( !strstr($string, '.') )
+            $errors[] =  'Wrong email form';
 
+        return $errors;
     }
 }

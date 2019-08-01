@@ -41,6 +41,7 @@ class TierFinder extends AbstractFinder
     /**
      * finds all tiers belonging to a product
      * @param $productID
+     * @return array
      */
     public function findByProductId($productID)
     {
@@ -59,6 +60,45 @@ class TierFinder extends AbstractFinder
         return $result;
 
     }
+
+
+    /**
+     * finds all tiers belonging to a product
+     * @param $tierID
+     * @return Tier
+     */
+    public function findById($tierID)
+    {
+        $sql = "SELECT * FROM tier WHERE idtier=?";
+        $statement = $this->getPdo()->prepare($sql);
+        $statement->bindParam(1, $tierID, PDO::PARAM_INT);
+        $statement->execute();
+
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $this->mapToDomainObject($row);
+
+    }
+
+
+    public function findByOrders($userID)
+    {
+        $sql = 'select * from tier where idtier in (select idtier from order_item 
+                    natural join user where iduser=?)';
+        $statement = $this->getPdo()->prepare($sql);
+        $statement->bindParam(1, $userID, PDO::PARAM_INT);
+        $statement->execute();
+
+        $result = [];
+
+        while($row = $statement->fetch(PDO::FETCH_ASSOC))
+        {
+            $result[] = $this->mapToDomainObject($row);
+        }
+
+        return $result;
+    }
+
 
 
 }

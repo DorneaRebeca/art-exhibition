@@ -70,7 +70,7 @@ class PersistenceFactory
 
     private static function getMapperClassName(string $entityClass): string
     {
-        return 'Art\\Model\\Persistence\\Mapper\\'.mb_convert_case($entityClass, MB_CASE_TITLE).'Mapper';
+        return 'Art\\Model\\Persistence\\Mapper\\'.ucfirst($entityClass).'Mapper';
     }
 
 

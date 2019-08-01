@@ -28,10 +28,14 @@ class ProductFinder extends AbstractFinder
      * @return array
      * @throws \Exception
      */
-    public function findALl(): array
+    public function findWithLimit($pageNumber): array
     {
-        $sql = "select * from product";
+        $sql = "select * from product LIMIT ? OFFSET ?";
         $statement = $this->getPdo()->prepare($sql);
+        $offset = $pageNumber * NO_PRODUCTS_ON_PAGE;
+        $limit = NO_PRODUCTS_ON_PAGE;
+        $statement->bindParam(1, $limit, PDO::PARAM_INT);
+        $statement->bindParam(2, $offset, PDO::PARAM_INT);
         $statement->execute();
 
         $resultProducts = [];
@@ -108,8 +112,22 @@ class ProductFinder extends AbstractFinder
     }
 
 
+    /**
+     * Retrieves all data in a db table
+     * @return array
+     */
+    public function findAll(): array
+    {
+        $sql = "select * from product";
+        $statement = $this->getPdo()->prepare($sql);
 
+        $statement->execute();
 
-
-
+        $resultProducts = [];
+        while($row =$statement->fetch(PDO::FETCH_ASSOC) )
+        {
+            $resultProducts[] = $this->mapToDomainObject($row);
+        }
+        return $resultProducts;
+    }
 }

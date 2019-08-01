@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-<html>
 <head>
     <title>Art Exhibition</title>
     <meta charset="UTF-8">
@@ -11,8 +9,7 @@
 
 </head>
 
-<a href="/user/register"> Sign up </a>
-<a href="/user/login"> Sign in </a>
+<body>
 
 
 <div >
@@ -35,18 +32,6 @@
                         <dd class="col-sm-9"><?php echo $product[IMG_DESCRIPTION].PHP_EOL ?></dd>
                     <?php }?>
 
-                    <?php
-                    if($product){?>
-                        <dt class="col-sm-3 text-truncate"> <?php echo 'Camera specs : ' ?> </dt>
-                        <dd class="col-sm-9"><?php echo $product[CAMERA_SPECS].PHP_EOL ?></dd>
-                    <?php }?>
-
-                    <?php
-                    if($product){?>
-                        <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
-                        <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE]->format('Y-m-d').PHP_EOL ?></dd>
-                    <?php }?>
-
                     <dt class="col-sm-3 text-truncate"> <?php echo 'Photography Type : ' ?> </dt>
                     <dd class="col-sm-9">
                         <?php
@@ -60,7 +45,11 @@
         </div>
     <?php endforeach; ?>
 
-</div>
 
+</div>
+<a href="<?php echo '/product/showProducts/'.$previousNumber ?>"> Previous</a>
+
+<a href="<?php echo '/product/showProducts/'.$pageNumber ?>"> Next</a>
+</body>
 
 </html>

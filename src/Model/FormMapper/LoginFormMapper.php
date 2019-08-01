@@ -29,9 +29,7 @@ class LoginFormMapper
         $email = $this->request->getPostSpecific(self::EMAIL);
         $password = $this->request->getPostSpecific(self::PASSWORD);
 
-        $encrypted = password_hash($password, PASSWORD_BCRYPT);
-
-        return new User($email, $encrypted);
+        return new User($email, $password);
     }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Model\Validations\Rules;
+namespace Art\Model\Validations\Rules;
 
 use Art\Model\Validations\Rules\ValidatorFactory;
 
