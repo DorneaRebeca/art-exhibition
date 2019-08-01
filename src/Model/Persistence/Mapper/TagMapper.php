@@ -18,14 +18,16 @@ class TagMapper extends AbstractMapper
         $statement = $this->getPdo()->prepare($sql);
         $statement->bindValue('tagName', $tagName);
         $statement->execute();
+
+        return $this->getPdo()->lastInsertId();
     }
 
     public function insertProductTag($tagID, $productID)
     {
-        $sql = "INSERT into product_tag (idproduct, idtag)  VALUES (?, ?) ";
+        $sql = "INSERT into product_tag (idproduct, idtag)  VALUES (:idproduct, :idtag) ";
         $statement = $this->getPdo()->prepare($sql);
-        $statement->bindValue(1, $tagID, PDO::PARAM_INT );
-        $statement->bindValue(2, $productID, PDO::PARAM_INT);
+        $statement->bindValue('idproduct', $productID, PDO::PARAM_INT);
+        $statement->bindValue('idtag', $tagID, PDO::PARAM_INT );
         $statement->execute();
     }
 
@@ -37,6 +39,7 @@ class TagMapper extends AbstractMapper
     public function insertTags(Product $product)
     {
         $productID = $product->getId();
+
         foreach ($product->getTags() as $tag)
         {
             $tagID = PersistenceFactory::getFinderInstance(TAG_ENTITY)->findByTagName($tag);
@@ -45,10 +48,11 @@ class TagMapper extends AbstractMapper
              */
             if( ! $tagID )
             {
-               $this->insert($tag);
-                $tagID = PersistenceFactory::getFinderInstance(TAG_ENTITY)->findByTagName($tag);
+               $tagID = $this->insert($tag);
             }
 
+            echo 'Tag id : '.$tagID.PHP_EOL;
+            echo 'Product id : '.$productID.PHP_EOL;
             $this->insertProductTag($tagID, $productID);
         }
     }

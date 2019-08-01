@@ -22,7 +22,7 @@
     <?php foreach ($displayData as $product):?>
 
         <div class="card" style="width: 40rem;">
-            <img class="card-img-top" src = "<?php echo $product[IMG_SOURCE] ?>" alt="Card image cap">
+            <img class="card-img-top" src = "<?php echo IMG_PATH.$product[IMG_SOURCE] ?>" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title"> <?php
                     if($product){?>
@@ -55,15 +55,6 @@
                         <dt class="col-sm-3 text-truncate"> <?php echo 'Capture date : ' ?> </dt>
                         <dd class="col-sm-9"><?php echo $product[CAPTURE_DATE]->format('Y-m-d').PHP_EOL ?></dd>
                     <?php }?>
-
-                    <?php
-    //                if($product){
-
-                    //}?>
-    <!--                    <dt class="col-sm-3 text-truncate"> --><?php //echo 'Created by : ' ?><!-- </dt>-->
-    <!--                    <dd class="col-sm-9">--><?php //echo $product[ARTIST_NAME].PHP_EOL ?><!--</dd>-->
-    <!--                --><?php //} ?>
-
 
                     <dt class="col-sm-3 text-truncate"> <?php echo 'Photography Type : ' ?> </dt>
                     <dd class="col-sm-9">

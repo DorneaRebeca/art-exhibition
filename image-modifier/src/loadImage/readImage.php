@@ -28,12 +28,14 @@ function readFromFile($path) {
  */
 function readImage($payload)
 {
-
+    echo 'In image reader'.PHP_EOL;
     $path = $payload[INPUT_KEY];
+
 
     if(preg_match(DEFAULT_PATTERN, $payload[INPUT_KEY])){
         $loadedImage =  readFromFile(DEFAULT_PATH.$path);
     }
+
     else $loadedImage =  readFromFile($path);
 
     $newPayload = $payload;

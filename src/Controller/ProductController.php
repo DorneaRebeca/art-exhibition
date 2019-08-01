@@ -11,8 +11,8 @@ use Art\Model\Http\Session;
 use Art\Model\Persistence\PersistenceFactory;
 use Art\Model\TierProcessor\OriginalImageSaver;
 use Art\Model\TierProcessor\TierCreator;
-use Art\View\Renderers\ProductPageRenderer;
 use Art\View\Renderers\HomePageRenderer;
+use Art\View\Renderers\ProductPageRenderer;
 
 
 class ProductController
@@ -62,21 +62,20 @@ class ProductController
 
     }
 
-
     public function showProduct($productID)
     {
 
         $product = PersistenceFactory::getFinderInstance(PRODUCT_ENTITY)->findByID($productID);
 
-
-        $tiers = PersistenceFactory::getFinderInstance(TIER_ENTITY)->findByProductID($productID);
+        $tiers = PersistenceFactory::getFinderInstance(TIER_ENTITY)->findByProductId($productID);
 
         $this->buyProductForm = new ProductPageRenderer();
-        $this->buyProductForm->displayPage($tiers, $product);
+        $this->buyProductForm->displayPage($product, $tiers);
     }
 
     public function buyProduct($tierID)
     {
+        echo 'You just brought it!!!!!! >:D< ';
 
     }
 
@@ -94,6 +93,7 @@ class ProductController
             $uploadProduct = $this->createProductFromForm( $userID);
 
             $productID = PersistenceFactory::getMapperInstance(PRODUCT_ENTITY)->insert($uploadProduct);
+
             $originalImageName = $this->saveOriginalImage();
 
             $this->saveTiers($productID, $originalImageName);

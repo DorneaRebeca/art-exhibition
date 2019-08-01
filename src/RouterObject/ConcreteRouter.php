@@ -50,12 +50,12 @@ class ConcreteRouter extends Router
     public function callControllerMethod()
     {
         $controllerClass = $this->getControllerClass();
-
         $controller = new $controllerClass;
 
         if($this->tierID)
         {
-            $controller->{$this->getControllerMethod()}((int)self::TIER_ID);
+            $controller->{$this->getControllerMethod()}((int)$this->tierID);
+
             return;
 
         }

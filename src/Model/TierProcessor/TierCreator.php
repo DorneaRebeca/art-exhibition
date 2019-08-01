@@ -13,6 +13,8 @@ class TierCreator
     private const MEDIUM_SALE_AMOUNT = 0.2;
     private const SMALL_SALE_AMOUNT = 0.4;
 
+    private const WATERMARK_PATH = '/var/www/art-exhibition/src/assets/watermark.png';
+
 
     public function generateTiers($productID,  $initialPrice, $imageName)
     {
@@ -22,21 +24,17 @@ class TierCreator
 
         //original -> large tier :
         $pathWithoutWatermark = uniqid().'.'.$imageExtension;
-        $this->saveWithCLI($imageName, $imageName, $pathWithoutWatermark, $initialSize);
+        $height = $this->getImageHeight($initialSize, 0);
+        $width = $this->getImageWidth($initialSize, 0);
+        $this->saveWithCLI($imageName, $imageName, $pathWithoutWatermark, $width, $height);
 
         $this->createTier($productID, SIZE_ENUM[LARGE], $initialPrice, $imageName, $pathWithoutWatermark);
 
         //medium size tier :
-        $mediumSize = $this->resizeImage($initialSize);
-        $this->generateModifiedTier($productID, $initialPrice, self::MEDIUM_SALE_AMOUNT, $imageName, $mediumSize, MEDIUM);
+        $this->generateModifiedTier($productID, $initialPrice, self::MEDIUM_SALE_AMOUNT, $imageName, $initialSize, MEDIUM, 20);
 
         //small size tier :
-        $smallSize = $this->resizeImage($mediumSize);
-        $this->generateModifiedTier($productID, $initialPrice, self::SMALL_SALE_AMOUNT, $imageName, $smallSize, SMALL);
-
-        var_dump($initialSize);
-        var_dump($mediumSize);
-        var_dump($smallSize);
+        $this->generateModifiedTier($productID, $initialPrice, self::SMALL_SALE_AMOUNT, $imageName, $initialSize, SMALL, 40);
     }
 
     /**
@@ -47,8 +45,9 @@ class TierCreator
      * @param $imageName
      * @param $size
      * @param $enumSize
+     * @param $scaleAmount
      */
-    private function generateModifiedTier($productID, $initialPrice, $saleAmount, $imageName, $size, $enumSize)
+    private function generateModifiedTier($productID, $initialPrice, $saleAmount, $imageName, $size, $enumSize, $scaleAmount)
     {
         $imageExtension = pathinfo($imageName, PATHINFO_EXTENSION);
         $pathWithWatermark = uniqid().'.'.$imageExtension;
@@ -56,11 +55,22 @@ class TierCreator
 
         $price = $initialPrice - $saleAmount*$initialPrice;
 
-        $this->saveWithCLI($imageName, $pathWithWatermark, $pathWithoutWatermark, $size);
+        $height = $this->getImageHeight($size, $scaleAmount);
+        $width = $this->getImageWidth($size, $scaleAmount);
+
+        $this->saveWithCLI($imageName, $pathWithWatermark, $pathWithoutWatermark, $width, $height);
 
         $this->createTier($productID, SIZE_ENUM[$enumSize], $price, $pathWithWatermark, $pathWithoutWatermark);
     }
 
+    /**
+     * Creates domain object of tier and saves it into database
+     * @param $productId
+     * @param $size
+     * @param $price
+     * @param $pathWithWatermark
+     * @param $pathWithoutWatermark
+     */
     private function createTier($productId, $size, $price, $pathWithWatermark, $pathWithoutWatermark )
     {
 
@@ -84,20 +94,62 @@ class TierCreator
     }
 
     /**
+     * Gets image height at needed dimensions
+     * @param $imgSize
+     * @param $scaleAmount
+     * @return int
+     */
+    private function getImageHeight($imgSize, $scaleAmount)
+    {
+         $sizeParams = explode(":", $imgSize);
+        $height = (int)$sizeParams[self::HEIGHT] - $scaleAmount;
+
+        return $height;
+    }
+
+    /**
+     * Gets image width at needed dimensions
+     * @param $imgSize
+     * @param $scaleAmount
+     * @return int
+     */
+    private function getImageWidth($imgSize, $scaleAmount)
+    {
+        $sizeParams = explode(":", $imgSize);
+        $width = (int)$sizeParams[self::WIDTH] - $scaleAmount;
+
+        return $width;
+    }
+
+    /**
      * Creates necessary commands and calls 'image-modifier' app to save the image
      * @param $imageName
      * @param $watermarkName
      * @param $noWatermarkName
-     * @param $imageSize
+     * @param $width
+     * @param $height
      */
-    private function saveWithCLI($imageName, $watermarkName, $noWatermarkName, $imageSize)
+    public function saveWithCLI($imageName, $watermarkName, $noWatermarkName, $width, $height)
     {
-        $inputImagePath = IMG_PATH.$imageName;
-        $pathWithWatermark = IMG_PATH.$watermarkName;
-        $pathWithoutWatermark = IMG_PATH.$noWatermarkName;
+        $inputImagePath = '/var/www/art-exhibition/'.IMG_PATH.$imageName;
+        $pathWithWatermark = '/var/www/art-exhibition/'.IMG_PATH.$watermarkName;
+        $pathWithoutWatermark = '/var/www/art-exhibition/'.IMG_PATH.$noWatermarkName;
 
-        //TODO : CLI saveeer
+        //construct command :
 
+        $commandWithoutWatermark = 'php /var/www/art-exhibition/image-modifier/src/my_command_line_tool.php  --input-file='.$inputImagePath.
+            ' --output-file='.$pathWithoutWatermark.' --width='.$width.' --height='.$height;
+        $this->runCommand($commandWithoutWatermark);
+
+        $commandWithWatermark = 'php /var/www/art-exhibition/image-modifier/src/my_command_line_tool.php  --input-file='.$inputImagePath.
+            ' --output-file='.$pathWithWatermark.' --width='.$width.' --height='.$height.' --watermark='.self::WATERMARK_PATH;
+        $this->runCommand($commandWithWatermark);
+
+    }
+
+    private function runCommand($command)
+    {
+         system($command);
     }
 
     /**
