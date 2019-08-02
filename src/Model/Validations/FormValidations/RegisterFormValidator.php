@@ -21,6 +21,12 @@ class RegisterFormValidator
         $this->validator = new EmailValidator();
     }
 
+    /**
+     * validates mandatory fields, email, existence in database, confirmation passwords
+     * @param User $user
+     * @param $confirmPassword
+     * @return array|null
+     */
     public function validateIntroducedData(User $user,$confirmPassword)
     {
 

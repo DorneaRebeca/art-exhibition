@@ -122,6 +122,9 @@ class UserController
         $this->loginForm->displayPage();
     }
 
+    /**
+     * gets user's downloaded tiers from database and sends them to renderer
+     */
     public function showOrders()
     {
         if(!$this->session->getSpecificSession(LOGGED_USER)) {
@@ -136,12 +139,11 @@ class UserController
         $renderer = new OrdersPageRenderer();
         $renderer->displayPage($userOrderedProducts);
 
-
-
-
-
     }
 
+    /**
+     * gets user's uploaded products from database and sends them to renderer
+     */
     public function showUploads()
     {
         if(!$this->session->getSpecificSession(LOGGED_USER)) {
@@ -154,9 +156,6 @@ class UserController
 
         $renderer = new UploadsPageRenderer();
         $renderer->displayPage($userUploadProducts);
-
-
-
 
     }
 

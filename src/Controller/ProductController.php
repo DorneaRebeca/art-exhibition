@@ -68,6 +68,10 @@ class ProductController
 
     }
 
+    /**
+     * Gets from database sll 3 tiers for the given product
+     * @param $productID
+     */
     public function showProduct($productID)
     {
 
@@ -78,6 +82,10 @@ class ProductController
         $this->buyProductForm->displayPage($product, $tiers);
     }
 
+    /**
+     * creates an order item in database and downloads the original tier
+     * @param $tierID
+     */
     public function buyProduct($tierID)
     {
 

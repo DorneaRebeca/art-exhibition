@@ -22,7 +22,6 @@ class UserFinder extends AbstractFinder
 
         $statement->execute();
 
-
         $users = [];
 
         while($row = $statement->fetch(PDO::FETCH_ASSOC) )
@@ -32,6 +31,11 @@ class UserFinder extends AbstractFinder
         return $users;
     }
 
+    /**
+     * finds user by an email given
+     * @param $email
+     * @return User
+     */
     public function findByEmail($email)
     {
         $sql = "select * from user where email = ?";

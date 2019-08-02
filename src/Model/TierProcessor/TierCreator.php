@@ -16,6 +16,13 @@ class TierCreator
     private const WATERMARK_PATH = '/var/www/art-exhibition/src/assets/watermark.png';
 
 
+    /**
+     * Generates 3 tiers and saves them on database and on disk at a default path
+     * @param $productID
+     * @param $initialPrice
+     * @param $imageName
+     * @throws \ImagickException
+     */
     public function generateTiers($productID,  $initialPrice, $imageName)
     {
         $initialSize = $this->getInitialSize($imageName);
@@ -144,9 +151,12 @@ class TierCreator
         $commandWithWatermark = 'php /var/www/art-exhibition/image-modifier/src/my_command_line_tool.php  --input-file='.$inputImagePath.
                                 ' --output-file='.$pathWithWatermark.' --width='.$width.' --height='.$height.' --watermark='.self::WATERMARK_PATH;
         $this->runCommand($commandWithWatermark);
-
     }
 
+    /**
+     * Runs image-modifier application with a given command
+     * @param $command
+     */
     private function runCommand($command)
     {
          system($command);
@@ -166,9 +176,5 @@ class TierCreator
 
         return $width.":".$height;
     }
-
-
-
-
 
 }

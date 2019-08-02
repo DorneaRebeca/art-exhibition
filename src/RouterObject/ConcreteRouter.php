@@ -33,6 +33,11 @@ class ConcreteRouter extends Router
 
     }
 
+    /**
+     * Creates the namespace for controller classes
+     * @param $urlProperty
+     * @return string
+     */
     private function createControllerPath($urlProperty) : string
     {
         if(strstr($urlProperty, 'user'))

@@ -17,10 +17,14 @@ class LoginFormValidation
         $this->validator = new EmailValidator();
     }
 
+    /**
+     * Validates email, password and existence in database
+     * @param User $databaseUser
+     * @param User $inputUser
+     * @return array|null
+     */
     public function validateData(User $databaseUser, User $inputUser)
     {
-        var_dump($databaseUser);
-        var_dump($inputUser);
         if($errors = $this->validator->validate($inputUser->getEmail()) )
             return $errors;
 
@@ -31,7 +35,6 @@ class LoginFormValidation
             return ['password doesn\'t match'];
 
         return null;
-
     }
 
 }

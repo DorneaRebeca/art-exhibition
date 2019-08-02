@@ -37,6 +37,7 @@ class OrdersPageRenderer
 
 
     /**
+     * Parse data from domain object to array
      * @param $displayProducts Tier[]
      * @return array
      */

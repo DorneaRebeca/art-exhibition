@@ -25,7 +25,6 @@ class TierDownloader
             flush();
 
             readfile($imagePath);
-
         }
     }
 

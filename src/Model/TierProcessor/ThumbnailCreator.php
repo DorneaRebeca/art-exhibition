@@ -7,6 +7,12 @@ namespace Art\Model\TierProcessor;
 class ThumbnailCreator
 {
 
+    /**
+     * Saves an image in a smaller size on a default path
+     * @param $imageName
+     * @param $thumbnailName
+     * @throws \ImagickException
+     */
     public function saveThumbnail($imageName, $thumbnailName)
     {
         $imagePath = '/var/www/art-exhibition/'.IMG_PATH.$imageName;

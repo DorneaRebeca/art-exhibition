@@ -9,7 +9,6 @@ class UploadProductFormValidator
     private const EXTENSION_PATTERN = '/\w+\.[jpeg|jpg|png]+$/';
 
 
-
     private function validateMandatoryFields( array $postData, $imageData) : array
     {
         $errorList = [];
@@ -65,7 +64,6 @@ class UploadProductFormValidator
         {
             $errorList[] = 'The price you introduced is incorrect';
         }
-
         return $errorList;
     }
 
@@ -77,12 +75,10 @@ class UploadProductFormValidator
             $errorList[] = 'This extension is not supported by our application. Change it!';
         }
         return $errorList;
-
     }
 
     public function validateAll($postData, $fileData) : array
     {
-        var_dump($postData);
         $errorList = $this->validateMandatoryFields($postData, $fileData[IMG_SOURCE][FILE_MIME_TYPE]);
         array_merge($errorList, $this->validatePrice($postData[IMG_PRICE]));
         array_merge($errorList, $this->validateImageExtension($fileData[IMG_SOURCE][FILE_MIME_TYPE]));

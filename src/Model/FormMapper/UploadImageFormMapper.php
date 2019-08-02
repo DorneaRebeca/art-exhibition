@@ -19,7 +19,9 @@ class UploadImageFormMapper
     }
 
 
-
+    /**
+     * Get's data from POST request and creates Product domain object
+     */
     public function getProductFromUploadForm($userID)
     {
         $imgExtension = pathinfo($this->request->getFileSpecific(FILE_NAME), PATHINFO_EXTENSION);

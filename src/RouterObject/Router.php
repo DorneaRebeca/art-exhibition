@@ -26,8 +26,6 @@ abstract class Router
      */
     public abstract function callControllerMethod();
 
-
-
     /**
      * @return mixed
      */

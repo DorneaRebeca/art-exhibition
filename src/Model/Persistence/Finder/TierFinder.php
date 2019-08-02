@@ -81,6 +81,11 @@ class TierFinder extends AbstractFinder
     }
 
 
+    /**
+     * Finds tiers that were ordered by a specific user
+     * @param $userID
+     * @return array
+     */
     public function findByOrders($userID)
     {
         $sql = 'select * from tier where idtier in (select idtier from order_item 

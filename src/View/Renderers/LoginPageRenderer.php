@@ -29,6 +29,10 @@ class LoginPageRenderer
         return new self();
     }
 
+    /**
+     * displays form with or without errors
+     * @param null $errorData
+     */
     public function displayPage($errorData = null)
     {
         $this->getHeader();

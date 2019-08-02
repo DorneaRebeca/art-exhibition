@@ -47,6 +47,11 @@ class ProductFinder extends AbstractFinder
 
     }
 
+    /**
+     * Finds a product in db by given database
+     * @param $thumbnailPath
+     * @return int
+     */
     public function findByThumbnailPath($thumbnailPath)
     {
         $sql = "select idproduct from product where thumbnailPath=?";
@@ -61,6 +66,11 @@ class ProductFinder extends AbstractFinder
 
     }
 
+    /**
+     * Selects a tag name given a product id
+     * @param $productID
+     * @return array
+     */
     private function getTags($productID)
     {
         $sqlQuery = "SELECT tagName from tag where idtag IN ( SELECT idtag FROM product_tag NATURAL JOIN product WHERE idproduct= ? )";
@@ -78,6 +88,12 @@ class ProductFinder extends AbstractFinder
 
     }
 
+    /**
+     * Returns all products of a user given an id
+     * @param $userID
+     * @return array
+     * @throws \Exception
+     */
     public function findUserProducts($userID)
     {
         $sql = "select * from product natural join user where iduser=?";
@@ -98,6 +114,12 @@ class ProductFinder extends AbstractFinder
     }
 
 
+    /**
+     * Finds products by id
+     * @param $productID
+     * @return Product
+     * @throws \Exception
+     */
     public function findByID($productID)
     {
         $sql = "select * from product where idproduct=?";

@@ -27,6 +27,10 @@ class RegisterFormMapper
     }
 
 
+    /**
+     * Get's data from POST request and creates User domain object
+     * @return User
+     */
     public function getUserFromLoginForm()
     {
         $name = $this->request->getPostSpecific(self::NAME);

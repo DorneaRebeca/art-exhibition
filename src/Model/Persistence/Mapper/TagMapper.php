@@ -57,10 +57,6 @@ class TagMapper extends AbstractMapper
         }
     }
 
-
-
-
-
     /**
      * Maps from rows in a table to domain object
      * @param $row
@@ -77,6 +73,5 @@ class TagMapper extends AbstractMapper
      */
     public function mapToArray($object): array
     {
-        // TODO: Implement mapToArray() method.
     }
 }
